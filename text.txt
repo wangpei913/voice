@@ -1,0 +1,2 @@
+cd ~/Applications/mongodb/bin
+./mongo

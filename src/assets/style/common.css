@@ -1,0 +1,399 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td ,.row{ margin:0; padding:0; }
+body { font-size:10px; color:#666; background:#fff; line-height:24px; }
+fieldset, img { border:0; }
+ol, ul,li { list-style:none; }
+h1, h2, h3, h4, h5, h6{ font-size:100%; }
+em { font-style:normal; }
+input, button, select, textarea { outline:none; }
+textarea { resize:none; }
+p{ text-align:justify; text-justify:distribute;}
+
+input, select {
+  vertical-align:middle;
+}
+a, a:link, a:visited, a:hover, a:active{
+  text-decoration: none;
+  color: #999;
+}
+/*.btn:focus,.btn:active:focus,.btn.active:focus,.btn.focus,.btn:active.focus,.btn.active.focus{
+  outline: none!important;
+}*/
+html,body{
+    /*font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;*/
+    /*font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif', 'Microsoft YaHei';*/
+    font-family: Exo,'-apple-system','Open Sans',HelveticaNeue-Light,'Helvetica Neue Light','Helvetica Neue','Hiragino Sans GB','Microsoft YaHei',Helvetica,Arial,sans-serif;
+    /* font-family:  "PingFang SC", "Microsoft Yahei", "微软雅黑", "PingFangHK-Light", "STHeiti", "Heiti SC", "Hiragino Sans GB", "Microsoft JhengHei", SimHei, "WenQuanYi Micro Hei", "Droid Sans", "Roboto", Helvetica, Tahoma, Arial, "sans-serif"; */
+    height: 100%;
+    min-width: 1024px;
+    overflow:hidden;
+    overflow-x: auto;
+    font-size:12px;
+    color:#444553;
+    background: #ecedef;
+}
+.text-right{
+  text-align: right;
+}
+.text-left{
+  text-align: left;
+}
+.text-center{
+  text-align: center;
+}
+.color-orange{
+  color: #f5702f;
+}
+.color-gray{
+  color: #898c93;
+}
+.bg-white{
+  background: #fff;
+}
+.bg-orange{
+  background:#f5702f;
+}
+.bg-gray{
+  background:#898c93;
+}
+.p-x-5 {
+    padding-right:5px !important;
+    padding-left:5px !important;
+}
+.p-x-r-5 {
+    padding-right:5px !important;
+}
+.p-x-l-5 {
+    padding-left:5px !important;
+}
+.p-y-5 {
+    padding-top:5px !important;
+    padding-bottom:5px !important;
+}
+.p-y-t-5 {
+    padding-top:5px !important;
+}
+.p-y-b-5 {
+    padding-bottom:5px !important;
+}
+.p-x {
+    padding-right:10px !important;
+    padding-left:10px !important;
+}
+.p-x-r {
+    padding-right:10px !important;
+}
+.p-x-l {
+    padding-left:10px !important;
+}
+.p-y {
+    padding-top:10px !important;
+    padding-bottom:10px !important;
+}
+.p-y-t {
+    padding-top:10px !important;
+}
+.p-y-b {
+    padding-bottom:10px !important;
+}
+.p-x-2 {
+    padding-left:20px !important;
+    padding-right:20px !important;
+}
+.p-x-r-2 {
+    padding-right:20px !important;
+}
+.p-x-l-2 {
+    padding-left:20px !important;
+}
+.p-y-2 {
+    padding-top:20px !important;
+    padding-bottom:20px !important;
+}
+.p-y-t-2 {
+    padding-top:20px !important;
+}
+.p-y-b-2 {
+    padding-bottom:20px !important;
+}
+.m-x-5 {
+    margin-left:5px !important;
+    margin-right:5px !important;
+}
+.m-y-5 {
+    margin-top:5px !important;
+    margin-bottom: 5px !important;
+}
+.m-x-r-5 {
+    margin-right:5px !important;
+}
+.m-x-l-5 {
+    margin-left:5px !important;
+}
+.m-y-t-5 {
+    margin-top:5px !important;
+}
+.m-y-b-5 {
+    margin-bottom:5px !important;
+}
+.m-x {
+    margin-left:10px !important;
+    margin-right:10px !important;
+}
+.m-y {
+    margin-top:10px !important;
+    margin-bottom: 10px !important;
+}
+.m-x-r {
+    margin-right:10px !important;
+}
+.m-x-l {
+    margin-left:10px !important;
+}
+.m-y-t {
+    margin-top:10px !important;
+}
+.m-y-b {
+    margin-bottom:10px !important;
+}
+.m-x-2 {
+    margin-left:20px !important;
+    margin-right:20px !important;
+}
+.m-x-r-2 {
+    margin-right:20px !important;
+}
+.m-x-l-2 {
+    margin-left:20px !important;
+}
+.m-y-2 {
+    margin-top:20px !important;
+    margin-bottom: 20px !important;
+}
+.m-y-t-2 {
+    margin-top:20px !important;
+}
+.m-y-b-2 {
+    margin-bottom:20px !important;
+}
+/*
+  dialog样式的修改
+*/
+/*.el-dialog__wrapper{
+  z-index: 100000 !important;
+}*/
+.el-dialog__wrapper .el-form-item{
+    margin-bottom:10px !important;
+}
+.el-dialog__wrapper .el-form-item__error {
+    line-height: 0 !important;
+    padding-top: 0px !important;
+}
+.el-upload {
+  text-align: left !important;
+}
+.el-select {
+  display: inherit !important
+}
+.el-dialog__header {
+    padding:10px !important;
+    background: #ffffff;
+}
+.el-dialog__header .el-dialog__headerbtn{
+    border: none;
+    background: none;
+}
+/*.el-dialog__close {
+    color:#000 !important;
+}*/
+.el-dialog__footer {
+    padding: 10px !important;
+    background: #ffffff;
+}
+/*
+  messagebox的修改
+*/
+.el-message-box__wrapper .el-message-box__header{
+    /*background-color: #ecedef;*/
+    padding:10px !important;
+}
+.el-message-box__wrapper .el-message-box__header .el-message-box__close {
+    top: 10px !important;
+    right: 10px !important;
+}
+.el-message-box__wrapper .el-message-box__btns {
+    padding: 10px !important;
+    /*background-color: #ecedef;*/
+}
+.el-message-box__wrapper .el-message-box__btns .el-button--default {
+    padding:6px 9px !important;
+}
+/*.el-message-box__wrapper .ex-message-box__btns .el-button--primary {
+    background:#ea5404 !important;
+}*/
+.page-footer {
+    background-color: #f9fafc;
+}
+
+.el-input-group__append, .el-input-group__prepend {
+    padding: 0 5px;
+}
+
+.el-button{
+    min-width: 50px;
+}
+.el-table tr td div.cell {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.el-table .el-table__body {
+  width: 100% !important;
+}
+.el-table .cell{
+    white-space: nowrap;
+}
+
+.el-table .el-table__header-wrapper table thead tr .gutter{
+    visibility: hidden;
+}
+/*
+body .el-message-box__wrapper {
+    z-index: 999999 !important;
+}
+body .v-modal {
+    z-index: 999998 !important;
+}
+*/
+/*.el-select-dropdown .el-scrollbar .el-select-dropdown__wrap{
+  margin-bottom: 0 !important;
+  margin-right: 0 !important;
+}*/
+
+.el-table__header-wrapper .el-table__header thead tr th .cell , .el-table__fixed .el-table__fixed-header-wrapper .el-table__header thead tr th .cell {
+    text-align: center;
+    line-height: 20px;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.el-table .el-table__header-wrapper thead div, .el-table__footer-wrapper thead div , .el-table__fixed .el-table__fixed-header-wrapper .el-table__header thead div{
+
+    background-color: #f2f7fb;
+}
+.el-table .el-table__header-wrapper .el-table__header thead tr th ,.el-table .el-table__fixed .el-table__fixed-header-wrapper .el-table__header thead tr th{
+
+    background-color: #f2f7fb;
+}
+.el-table {
+    font-size: 10px !important;
+    margin-top: 20px !important;
+}
+.el-table .el-table__body-wrapper .el-table__body tbody tr td div{
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.el-table .el-table__body-wrapper .el-table__body tbody tr td, .el-table .el-table__fixed .el-table__fixed-body-wrapper .el-table__body tbody tr td{
+  padding: 0px 0 !important;
+  height: 30px !important;
+}
+.el-table .el-table__fixed, .el-table__fixed-right {
+  box-shadow: none;
+}
+.el-tabs .el-tabs__item {
+    font-size: 13px !important;
+    font-weight: bold;
+}
+/*.el-table th.gutter {
+  width: 15px !important;
+}*/
+/*.v-modal {
+  z-index: 99999 !important;
+}*/
+
+.tip {
+    background: #36404E !important;
+    padding: 0 !important;
+}
+/*.is-dark .popper__arrow::after {
+    border-top-color: red !important;
+}
+.is-dark .popper__arrow {
+    border-top-color: red !important;
+}*/
+.tip div {
+    margin-left: -12px;
+}
+.tip div ul li {
+    border: 0.5px solid #36404E;
+}
+.tip div ul .main-menu-con,
+.tip div ul .sub-title-con,
+.tip div ul .submenu-active-con,
+.tip div ul .submenu-text-con{
+    display: block;
+    width: 140px;
+    height: 50px;
+    padding-left: 10px;
+    line-height: 50px;
+}
+.tip div ul .main-menu-con {
+    background: #20a0ff;
+}
+.tip div ul .sub-title-con {
+    padding-left: 10px;
+    background: #324057;
+}
+.tip div ul .sub-title-con a span {
+    padding-left: 10px;
+}
+.tip div ul .sub-title-con:hover {
+    background: #222c3c;
+}
+.tip div ul .sub-title-con:hover span {
+    color: #20a0ff;
+}
+.tip div ul .submenu-active-con {
+    background: #2B333E;
+}
+.tip div ul .submenu-active-con .submenu-text-con {
+    color: #20a0ff;
+}
+.tip div ul .subtext-active-con {
+    color: #20a0ff;
+}
+.tip div ul .submenu-text-con {
+    color: #fff;
+}
+.tip div ul .submenu-text-con {
+    padding-left: 0;
+}
+
+.dr {
+  top: 47px !important;
+}
+.remark-info {
+    width: 100%;
+    padding-top:2px;
+    color: #acacac;
+    text-align: left;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+
+/* 上传的alert样式、预测页面的弹出框   关闭按钮样式 */
+.upload-msg .el-message-box__header .el-message-box__close, .dia-alert .el-message-box__header .el-message-box__close {
+  top: -6px !important;
+  right: -6px !important;
+}
+.mark-Manege .el-dialog__body .el-form .el-form-item .el-form-item__content .el-form-item__error {
+      line-height: 2 !important;
+}
+ /* 修改密码弹窗 */
+.password_dialog {
+    width: 35%! important;
+}
+/* message弹窗'X'按钮不显示*/
+.password_is_safe .el-message-box__close, .password_is_safe .el-dialog__headerbtn{
+     display: none;
+}
