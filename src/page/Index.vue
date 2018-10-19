@@ -31,22 +31,6 @@
                 <router-view @rootReload="rootReload"></router-view>
             </transition>
         </main>
-        <!-- <div class="position-box" v-if="getIsRoute" ref="positionBox" :class="{'position-default': positionFlag === false,'position-flag': positionFlag === true}">
-            <p class="box-title">
-                <span @click="againClickMrc()"><i class="iconfont icon-maikefeng" style="font-size: 24px;"></i></span>
-                <span>科技让生活更美好</span>
-                <span @click="openInfoBox()"><i :class="positionFlag === false ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" style="font-size: 24px; line-height: 35px;"></i></span>
-            </p>
-            <ul class="box-content" v-if="positionFlag" :style="{height: eleHeight}">
-                <li v-for="(item, index) in getRouteList" :key="index">
-                    <span>
-                        <img :src="imgSrc" alt="" srcset="">
-                    </span>
-                    <span>{{item.key}}</span>
-                    <span>{{item.value}}</span>
-                </li>
-            </ul>
-        </div> -->
         <div class="quick-btn" v-if="isShow" :class="{'position-default': showHistoryBox === false,'position-flag': showHistoryBox === true}">
             <i class="iconfont icon-maikefeng" @click="getIsClick && againClickMrc()"></i>
             <p class="show-info" v-if="getMicRecordInfo">

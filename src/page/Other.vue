@@ -28,9 +28,10 @@
             placeholder="请输入内容"
             v-model="input">
         </el-input>
-        <el-button size="small" type="primary" @click="playVoice()">确定</el-button><br>
-        <audio controls autoplay ref="audio"></audio>
-        <el-row>
+        <el-button size="small" type="primary" @click="playVoice()">确定</el-button><br> -->
+        <!-- <audio controls autoplay ref="audio" width="0" height="0"></audio> -->
+        <!-- <video id="video" width="0" src="" height="0" controls autoplay loop preload></video> -->
+        <!-- <el-row>
             <el-col :span="8">
                 <div id="preloader_1">
                     <span></span>

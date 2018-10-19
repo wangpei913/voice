@@ -134,7 +134,6 @@ export default {
                             value: res.data.data.words.substr(0, res.data.data.words.length - 1)
                         };
                         window.sessionStorage.setItem('hasRoute', JSON.stringify(obj));
-                        // _that.$store.dispatch('commitMicBoxDisplay', false);
                         _that.setMicBoxDisplay(false);
                         _that.$store.dispatch('commitIsRoute', true);
                         _that.setIsSuccess(true);

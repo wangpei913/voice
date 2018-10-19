@@ -4,53 +4,45 @@
             <li v-for="(item, index) in tabsList" :key="index" :class="{'lis-active': tabActive === index}" @click="clickTabs(index)">{{item}}</li>
         </ul>
         <div class="page-mains">
-            <keep-alive>
-                <transition enter-active-class="zoomIn" leave-active-class="zoomOutRight">
-                    <component :is="componentId" @reload="reload"></component>
-                </transition>
-            </keep-alive>
+            <transition enter-active-class="zoomIn" leave-active-class="zoomOutRight">
+                <component :is="componentId" @reload="reload"></component>
+            </transition>
         </div>
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex';
 import BaiduCom from './BaiDuVoice';
 import KeDaXunFeiCom from './XunFeiVoice';
+import TestVoice from './TestVoice';
 export default {
     data () {
         return {
-            tabsList: ['百度语音', '科大讯飞语音'],
+            tabsList: ['百度语音', '科大讯飞语音', '声音测试'],
             tabActive: 0
         }
     },
     computed: {
-        ...mapGetters({
-            getNowPage: 'getNowPage'
-        }),
         componentId () {
             let com = '';
-            switch (this.getNowPage) {
-                case 1:
+            switch (this.tabActive) {
+                case 0:
                     com = BaiduCom;
                     break;
-                case 2:
+                case 1:
                     com = KeDaXunFeiCom;
+                    break;
+                case 2:
+                    com = TestVoice;
+                    break;
                 default:
                     break;
             }
             return com;
         }
     },
-    created () {
-        this.setNowPage(1);
-    },
     methods: {
-        ...mapMutations({
-            setNowPage: 'setNowPage'
-        }),
         clickTabs (index) {
             this.tabActive = index;
-            this.setNowPage(index + 1);
         },
         reload (val) {
             this.$emit('rootReload', val);

@@ -9,7 +9,7 @@ const store = new Vuex.Store({
     state: {
         city: '城市名',
         nowPage: {
-            page: 1
+            page: 0
         },
         routeInfo: {
             isRoute: false,
@@ -38,6 +38,7 @@ const store = new Vuex.Store({
         },
         setNowPage ({nowPage}, data) {
             nowPage.page = data;
+            sessionStorage.setItem('nowPage', JSON.stringify(data));
         },
         setIsRoute ({routeInfo}, data) {
             routeInfo.isRoute = data;
@@ -85,7 +86,13 @@ const store = new Vuex.Store({
             }
             return state.micBoxDisplay;
         },
-        getNowPage: ({nowPage}) => nowPage.page,
+        // getNowPage: ({nowPage}) => nowPage.page,
+        getNowPage (nowPage) {
+            if (sessionStorage.getItem('nowPage')) {
+                nowPage.page = JSON.parse(sessionStorage.getItem('nowPage'))
+            }
+            return nowPage.page;
+        },
         getIsRoute (routeInfo) {
             if (sessionStorage.getItem('isRoute')) {
                 routeInfo.isRoute = JSON.parse(sessionStorage.getItem('isRoute'))

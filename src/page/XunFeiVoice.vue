@@ -1,18 +1,19 @@
 <template>
-    <div class="voice-demo">
-        <div class="dialog-mask" v-if="dialogTableVisible"></div>
-        <div class="dialog-com" v-if="dialogTableVisible">
-            <p class="dialog-com-top" @click="closeDialog()">X</p>
-            <p class="message-info" v-text="voiceInfo"></p>
-            <div class="dialog-com-mike">
-                <div class="dot" @click="mikeClick() && mikeFlag">
+    <div class="xunfei-demo">
+        <div class="sound-record-com" v-if="dialogTableVisible">
+            <p class="close-btn" @click="closeDialog">X</p>
+            <div class="mic-box">
+                <div class="frist-mic" @click="mikeClick() && mikeFlag">
                     <div class="line-div" v-if="animateShow">
                         <span class="line1"></span>
                     </div> 
                 </div>
-                <div class="pulse" v-if="animateShow"></div>
-                <div class="pulse1" v-if="animateShow"></div>
+                <span class="frist-circle" v-if="animateShow"></span>
+                <span class="second-circle" v-if="animateShow"></span>
             </div>
+            <p class="stop-btn">
+                <el-button @click="stopRecord()" type="primary" size="mini">停止录音</el-button>
+            </p>
         </div>
         <ul class="voice-demo-header">
             <li>
@@ -22,23 +23,19 @@
                 </el-input>
                 <ul class="search-list" v-if="searchShow">
                     <li class="search-list-lis" v-for="(item, index) in restaurants" :key="index" @click="clickSearchList(item)">{{item.value}}</li>
+                    <li class="no-info" v-if="noDataShow">暂无该词条！</li>
                 </ul>
-                <p class="no-Data" v-show="noDataShow">暂无该词条！</p>
             </li>
             <li>
-                <el-button type="primary" size="small">搜索</el-button>
+                <audio class="audio-parts" v-if="showPlayBtn" controlsList="nodownload" :src="voiceSrc" controls autoplay ref="audio" width="100%"></audio>
             </li>
         </ul>
-        <div class="voice-demo-content" v-text="voiceWords">content</div>
-        <embed :src="voiceSrc" ref="" type="audio/x-wav" autostart="true" width="0" height="0" loop="false"/>
-        <sound-record-com v-if="$store.state.showSearchBox"></sound-record-com>
+        <div class="voice-demo-content" v-text="voiceWords"></div>
     </div>
 </template>
 <script>
 import AudioAPI from '../utls/AudioAPI.js';
-import {xfToWords, xfToVoice} from '../api/demo.js';
-import { mapMutations, mapGetters } from 'vuex';
-import SoundRecordCom from './soundRecordCom';
+import {xfToVoice, xfToWords} from '../api/demo.js';
 let analyser;
 export default {
     data () {
@@ -66,48 +63,15 @@ export default {
             searchShow: false,
             noDataShow: false,
             voiceWords: '',
-            voiceSrc: ''
+            voiceSrc: '',
+            routeList: [],
+            showPlayBtn: false,
+            controlBtn: false
         }
     },
-    mounted () {},
-    components: {
-        'sound-record-com': SoundRecordCom
-    },
-    computed: {
-        ...mapGetters({
-            getRecordModelValue: 'getRecordModelValue'
-        })
-    },
     watch: {
-        times (val) {
-            if (val > 11) {
-                let _that = this;
-                clearInterval(_that.timer);
-                _that.recorder.stop();
-                _that.animateShow = false;
-                let fd = new FormData();
-                fd.append("audioData", _that.recorder.getBlob());
-                xfToWords(fd).then(res => {
-                    if (res.data.success === true) {
-                        if (res.data.data.words && !res.data.data.menu) {
-                            _that.state3 = res.data.data.words.substr(0, res.data.data.words.length - 1);
-                            _that.dialogTableVisible = false;
-                            _that.times = 0;
-                        } else if (res.data.data.menu) {
-                            _that.$router.push({
-                                name: res.data.data.menu
-                            })
-                        }
-                    } else {
-                        _that.voiceInfo = '识别失败，请点击下面按钮后再说一次';
-                        _that.mikeFlag = true;
-                    }
-                })
-            }
-        },
         state3 (val) {
             if (val) {
-                this.searchShow = true;
                 this.restaurants = [];
                 this.allList.forEach((item, index) => {
                     if (item.value.indexOf(val) !== -1) {
@@ -115,57 +79,93 @@ export default {
                         this.noDataShow = false;
                     } else {
                         this.noDataShow = true;
+                        setTimeout(() => {
+                            this.noDataShow = false;
+                        }, 100)
                     }
                 })
             } else {
                 this.searchShow = false;
-                this.noDataShow = false;
             }
-        },
-        getRecordModelValue (val) {
-            this.state3 = val;
         }
     },
     methods: {
-        ...mapMutations({
-            setSearchBox: 'setSearchBox'
-        }),
+        // 获取日期时间
+        getNowFormatDate () {
+            let date = new Date();
+            let seperator1 = '-';
+            let seperator2 = ':';
+            let month = date.getMonth() + 1;
+            let strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = '0' + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = '0' + strDate;
+            }
+            let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                    + ' ' + (date.getHours() > 9 ? date.getHours() : '0' + date.getHours()) + seperator2 + (date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes())
+                    + seperator2 + (date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds());
+            return currentdate;
+        },
+        // 停止录音后再次录音事件
         mikeClick () {
             let _that = this;
             _that.animateShow = true;
-            _that.voiceInfo = '请说话';
-            _that.times = 0;
             _that.handleIconClick();
         },
-        handleIconClick () {
-            // this.dialogTableVisible = true;
-            // this.animateShow = true;
-            // let _that = this;
-            // HZRecorder.get(function (rec) {
-            //     _that.recorder = rec;   
-            //     _that.recorder.start();
-            // })
-            // AudioAPI.start().then(analyser => {
-            //     console.log(analyser, 'analyser')
-            //     _that.timer = setInterval(function () {
-            //         let a = AudioAPI.getVoiceSize(analyser);
-            //         if (a < 5000) {
-            //             _that.times++;
-            //         }
-            //     }, 100)
-            // })
-            this.setSearchBox(true);
+        // 页面第一次加载时候触发的事件
+        fristLoading () {
+            this.animateShow = true;
+            let _that = this;
+            HZRecorder.get(function (rec) {
+                _that.recorder = rec;   
+                _that.recorder.start();
+            })
         },
+        // 搜索框麦克风点击事件
+        handleIconClick () {
+            this.dialogTableVisible = true;
+            this.fristLoading();
+        },
+        // 停止录音按钮点击事件
+        stopRecord () {
+            let _that = this;
+            _that.recorder.stop();
+            _that.animateShow = false;
+            let fd = new FormData();
+            fd.append("audioData", _that.recorder.getBlob());
+            xfToWords(fd).then(res => {
+                if (res.data.success === true) {
+                    if (res.data.data.words && !res.data.data.menu) {
+                        _that.state3 = res.data.data.words.substr(0, res.data.data.words.length - 1);
+                        _that.searchShow = true;
+                    } else if (res.data.data.menu) {
+                        window.sessionStorage.setItem('state', true);
+                        _that.$router.push({
+                            name: res.data.data.menu
+                        })
+                    }
+                    _that.dialogTableVisible = false;
+                } else {
+                    let str = '识别失败，请点击中间麦克风按钮后再说一次';
+                    _that.state3 = str;
+                }
+            })
+        },
+        // 关闭录音界面
         closeDialog () {
             this.dialogTableVisible = false;
             this.animateShow = false;
+            let _that = this;
+            _that.recorder.stop();
         },
         // 点击搜索的词条
         clickSearchList (item) {
             this.voiceWords = item.info;
+            this.state3 = item.value;
             this.searchShow = false;
             this.broadCastWords(item.info);
-            this.setSearchBox(false);
         },
         // 播报词条
         broadCastWords (word) {
@@ -174,18 +174,30 @@ export default {
             }
             xfToVoice(w).then(res => {
                 this.voiceSrc = res.data;
+                this.showPlayBtn = true;
+                this.controlBtn = true;
             }).catch(err => {
-                console.log(err)
+                console.log(err);
             })
+        },
+        // 暂停播放
+        suspendPlay () {
+            this.controlBtn = !this.controlBtn;
+            let player = document.getElementById('player');
+            if (this.controlBtn === false) {
+                player.pause();
+            } else {
+                player.play();
+            }
         }
     },
     beforeDestroy () {
-        this.setSearchBox(false);
+        this.dialogTableVisible = false;
     }
 }
 </script>
 <style lang="less" scoped>
-.voice-demo{
+.xunfei-demo{
     width: 100%;
     height: 100%;
     .voice-demo-header{
@@ -234,66 +246,49 @@ export default {
                         background: rgb(228, 232, 241);
                     }
                 }
-                .no-Data{
-                    width: 30%;
-                    position: absolute;
-                    left: 0;
-                    border-radius: 5px;
-                    background-color: #fff;
-                    border: 1px solid #d1dbe5;
-                    box-sizing: border-box;
-                    padding: 0 15px;
-                    box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);
-                }
             }
             &:nth-child(2){
                 padding-left: 10px;
+                height: 100%;
+                line-height: 50px;
+                .audio-parts{
+                    height: 50px !important;
+                }
+                .play-btn{
+                    i{
+                        font-size: 32px;
+                    }
+                }
             }
         }
     }
     .voice-demo-content{
         width: 100%;
-        height: calc(~'100% - 50px');
+        height: calc(~'100% - 55px');
         font-size: 14px;
         text-indent: 25px;
+        margin-top: 5px;
     }
-    .dialog-com{
+    .sound-record-com{
+        width: 10%;
+        height: 165px;
         position: absolute;
-        font-family: "microsoft yahei";
-        z-index: 1000;
-        box-shadow: 0 5px 5px #888;
-        width: 100%;
-        height: 38.2%;
-        min-height: 229.2px;
-        background: #fff;
-        font-size: 16px;
+        left: 0;
+        right: 0;
+        top: 0;
         bottom: 0;
-        .dialog-com-top{
-            position: absolute;
-            right: 10px;
-            top: 20px;
-            font-size: 24px;
-            color: #333;
-            cursor: pointer;
-            width: 20px;
-            height: 20px;
-        }
-        .message-info{
-            margin: 20px 0 0 10px;
-            font-size: 22px;
-        }
-        .dialog-com-mike{
-            width: 15%;
-            height: 60%;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            .dot{
-                width: 105px;
-                height: 105px;
+        margin: auto;
+        z-index: 1000;
+        .mic-box{
+            width: 100%;
+            height: calc(~'100% - 30px');
+            position: relative;
+            span{
+                display: block;
+            }
+            .frist-mic{
+                width: 85px;
+                height: 85px;
                 border-radius: 50%;
                 position: absolute;
                 top: 0;
@@ -312,7 +307,7 @@ export default {
                     z-index: -1;
                     span {
                         display: inline-block;
-                        width: 34px;
+                        width: 35px;
                         margin: 0 2px;
                         background: #35d2ff;
                     }
@@ -321,10 +316,13 @@ export default {
                     }
                 }
             }
-            .pulse {
+            .frist-mic:hover{
+                cursor: pointer;
+            }
+            .frist-circle{
                 position: absolute;
-                width: 160px;
-                height: 160px;
+                width: 140px;
+                height: 140px;
                 top: 0;
                 right: 0;
                 bottom: 0;
@@ -343,10 +341,10 @@ export default {
                 -moz-animation-iteration-count: infinite;
                 animation-iteration-count: infinite;
             }
-            .pulse1 {
+            .second-circle{
                 position: absolute;
-                width: 160px;
-                height: 160px;
+                width: 140px;
+                height: 140px;
                 top: 0;
                 right: 0;
                 bottom: 0;
@@ -366,16 +364,20 @@ export default {
                 animation-iteration-count: infinite;
             }
         }
-    }
-    .dialog-mask{
-        opacity: 0.2;
-        position: absolute;
-        background: rgb(0, 0, 0);
-        z-index: 999;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
+        .close-btn{
+            position: absolute;
+            right: 2px;
+            top: 0;
+            font-size: 24px;
+            z-index: 2000;
+        }
+        .stop-btn{
+            width: 100%;
+            line-height: 30px;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+        }
     }
 }
 @keyframes warn {
