@@ -1,10 +1,11 @@
 <template>
     <div class="demo-page">
-        <el-row>
+        <p class="demo-page-title">基金运行</p>
+        <!-- <el-row>
             <el-col :span="5">
                 <div class="line-div">
                     <span class="line1"></span>
-                    <!-- <span class="line2"></span>
+                    <span class="line2"></span>
                     <span class="line3"></span>
                     <span class="line4"></span>
                     <span class="line5"></span>
@@ -14,13 +15,13 @@
                     <span class="line9"></span>
                     <span class="line10"></span>
                     <span class="line11"></span>
-                    <span class="line12"></span> -->
+                    <span class="line12"></span>
                 </div> 
             </el-col>
             <el-col :span="5">1</el-col>
             <el-col :span="5">1</el-col>
-        </el-row>
-        <div class="play-parts" @click="clickMike()">
+        </el-row> -->
+        <!-- <div class="play-parts" @click="clickMike()">
             <div class="up">
                 <span class="voice-status" v-if="voiceprint">
                     <i class="icon-font el-icon-loading"></i>
@@ -33,7 +34,7 @@
                 <div class="pulse1" v-if="voiceprint"></div>
             </div>
             <embed :src="voiceSrc" type="audio/x-wav" autostart="true" width="0" height="0" loop="false"/>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -45,6 +46,7 @@ export default {
             voiceSrc: ''
         }
     },
+    created () {},
     methods: {
         clickMike () {
             this.voiceprint = !this.voiceprint;
@@ -73,6 +75,9 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
+    .demo-page-title{
+        font-size: 24px;
+    }
     .el-row{
         .el-col{
             .line-div{

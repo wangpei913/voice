@@ -1,7 +1,8 @@
 <template>
     <div class="other-page">
+        <p style="font-size: 24px;">参保人口</p>
         <!-- <input v-model.number="number" type="number" step="20"> -->
-        <p>{{ animatedNumber }}</p>
+        <!-- <p>{{ animatedNumber }}</p>
         <h1>{{city}}</h1>
         <el-button>
             <router-link to="/react">获取城市名</router-link>
@@ -19,9 +20,9 @@
                     <span @click="playSrc(item)">{{item}}</span>
                 </li>
             </ul>
-        </div>
+        </div> -->
         <!-- <el-input style="width: 20%;" v-model="input" placeholder="请输入内容"></el-input> -->
-        <el-input
+        <!-- <el-input
             type="textarea"
             autosize
             placeholder="请输入内容"
@@ -56,7 +57,7 @@
             </el-col>
             <el-col :span="5">2</el-col>
             <el-col :span="8">3</el-col>
-        </el-row>
+        </el-row> -->
     </div>
 </template>
 <script>

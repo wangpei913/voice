@@ -9,11 +9,21 @@ export function city (id) {
 export function county (n) {
     return axios.get('/static/map 2/city/' + cityMap[n] + '.json');
 }
+// 百度文字转声音
 export function voice (word) {
     return axios.post('/api/baidu/toVoice', {
         ...word
     });
 }
+// 百度声音转文字
 export function toWords (audioData) {
     return axios.post('/api/baidu/toWords', audioData); 
+}
+// 科大讯飞文字转声音
+export function xfToWords (audioData) {
+    return axios.post('/api/xf/toWords', audioData)
+}
+// 科大讯飞声音转文字
+export function xfToVoice (audioData) {
+    return axios.post('/api/xf/toVoice', audioData)
 }

@@ -32,8 +32,11 @@ export default [
         component: ReactPage
     },
     {
-        path: '/other',
-        name: 'other',
+        path: '/fundPop',
+        name: 'fundPop',
+        meta: {
+            keepAlive: true
+        },
         component: OtherPage
     },
     {
@@ -44,16 +47,32 @@ export default [
     {
         path: '/fundFore',
         name: 'fundFore',
+        meta: {
+            keepAlive: true
+        },
         component: () => import('../page/Demo')
     },
     {
-        path: '/voice',
-        name: 'voice',
-        component: () => import('../page/Voice')
+        path: '/search',
+        name: 'search',
+        meta: {
+            keepAlive: true
+        },
+        component: () => import('../page/VoiceMainView')
     },
     {
         path: '/practice',
         name: 'practice',
         component: () => import('../page/Practice')
+    },
+    {
+        path: '/fundDan',
+        name: 'fundDan',
+        component: () => import('../page/fundDan')
+    },
+    {
+        path: '/reportDown',
+        name: 'reportDown',
+        component: () => import('../page/reportDown')
     }
 ]

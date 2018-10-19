@@ -26,7 +26,7 @@
                 this.size += data.length;
             },
             compress: function (Data) { //合并压缩
-			    var  _buffer=(Data=="")?this.buffer:Data;
+                var  _buffer=(Data=="")?this.buffer:Data;
                 //合并
                 var data = new Float32Array(this.size);
                 var offset = 0;
@@ -104,7 +104,7 @@
                     }
                 }
 
-                return new Blob([data], { type: 'audio/wav' });
+                return new Blob([data], { type: 'audio/mp3' });
             }
         };
 

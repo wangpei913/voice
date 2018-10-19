@@ -3,7 +3,9 @@
         <header>
             <p class="logo-box">
                 <router-link :to="{path: '/carousel'}">
-                    <span>樂分享</span>
+                    <span>樂</span>
+                    <span>分</span>
+                    <span>享</span>
                 </router-link>
             </p>
             <ul class="menu-uls">
@@ -24,20 +26,59 @@
                 </el-dropdown>
             </p>
         </header>
-        <main>
-            <keep-alive>
-                <transition enter-active-class="zoomIn" leave-active-class="zoomOutRight">
-                    <router-view></router-view>
-                </transition>
-			</keep-alive>
+        <main id="el-main">
+            <transition enter-active-class="zoomIn" leave-active-class="zoomOutRight">
+                <router-view @rootReload="rootReload"></router-view>
+            </transition>
         </main>
+        <!-- <div class="position-box" v-if="getIsRoute" ref="positionBox" :class="{'position-default': positionFlag === false,'position-flag': positionFlag === true}">
+            <p class="box-title">
+                <span @click="againClickMrc()"><i class="iconfont icon-maikefeng" style="font-size: 24px;"></i></span>
+                <span>科技让生活更美好</span>
+                <span @click="openInfoBox()"><i :class="positionFlag === false ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" style="font-size: 24px; line-height: 35px;"></i></span>
+            </p>
+            <ul class="box-content" v-if="positionFlag" :style="{height: eleHeight}">
+                <li v-for="(item, index) in getRouteList" :key="index">
+                    <span>
+                        <img :src="imgSrc" alt="" srcset="">
+                    </span>
+                    <span>{{item.key}}</span>
+                    <span>{{item.value}}</span>
+                </li>
+            </ul>
+        </div> -->
+        <div class="quick-btn" v-if="isShow" :class="{'position-default': showHistoryBox === false,'position-flag': showHistoryBox === true}">
+            <i class="iconfont icon-maikefeng" @click="getIsClick && againClickMrc()"></i>
+            <p class="show-info" v-if="getMicRecordInfo">
+                <span v-text="getMicRecordInfo" :style="{color: getIsSuccess ? '#13ce66' : '#ff4949'}"></span>
+                <span class="more-span" @click="clickMore()">......</span>
+            </p>
+        </div>
+        <transition enter-active-class="fadeInRight" leave-active-class="fadeOutRight">
+            <ul :style="{height: eleHeight}" :class="{'history-default': showHistoryBox === false,'history-running': showHistoryBox === true}">
+                <li v-for="(item, index) in getRouteList" :key="index">
+                    <span>
+                        <img :src="imgSrc" alt="" srcset="">
+                    </span>
+                    <span>{{item.key}}</span>
+                    <span>{{item.value}}</span>
+                </li>
+            </ul>
+        </transition>
+        <transition enter-active-class="bounceInUp" leave-active-class="bounceOutUp">
+            <sound-record-com v-if="$store.state.micBoxDisplay"></sound-record-com>
+        </transition>
     </div>
 </template>
 <script>
 import carouselPage from '../page/Carousel';
+import SoundRecordCom from './soundRecordCom';
+import { mapGetters, mapMutations } from 'vuex';
+import { stat } from 'fs';
 export default {
     components: {
-        'carousel-com': carouselPage
+        'carousel-com': carouselPage,
+        'sound-record-com': SoundRecordCom
     },
     data () {
         return {
@@ -59,20 +100,28 @@ export default {
                 //     menupath: 'react'
                 // },
                 {
-                    menuname: 'Other',
-                    menupath: 'other'
+                    menuname: '参保人口',
+                    menupath: 'fundPop'
                 },
                 // {
                 //     menuname: 'Echarts',
                 //     menupath: 'echarts'
                 // },
                 {
-                    menuname: 'Demo',
+                    menuname: '运行现状',
                     menupath: 'fundFore'
                 },
                 {
-                    menuname: 'Voice',
-                    menupath: 'voice'
+                    menuname: '预测分析',
+                    menupath: 'fundDan'
+                },
+                {
+                    menuname: '报告下载',
+                    menupath: 'reportDown'
+                },
+                {
+                    menuname: '站内搜索',
+                    menupath: 'search'
                 }
                 // {
                 //     menuname: 'Practice',
@@ -81,11 +130,41 @@ export default {
             ],
             activeIndex: '',
             userName: JSON.parse(window.sessionStorage.getItem('user')).un,
-            showSubMenu: false
+            showSubMenu: false,
+            positionFlag: false,
+            eleHeight: 0,
+            imgSrc: require('../assets/img/login.png'),
+            micShow: false,
+            showHistoryBox: false,
+            isShow: false
         }
     },
-    created () {},
-    mounted () {},
+    computed: {
+        ...mapGetters({
+            getIsRoute: 'getIsRoute',
+            getRouteList: 'getRouteList',
+            getMicRecordInfo: 'getMicRecordInfo',
+            getIsSuccess: 'getIsSuccess',
+            getMicBoxDisplay: 'getMicBoxDisplay',
+            getIsClick: 'getIsClick'
+        })
+    },
+    created () {
+        if (window.sessionStorage.getItem('state')) {
+            this.$nextTick(() => {
+                this.getState();
+            })
+        }
+    },
+    beforeMount () {
+        this.setIsClick(true);
+    },
+    mounted () {
+        window.addEventListener('resize', () => {
+            let h = document.body.clientHeight;
+            this.eleHeight = (h / 2) - 4 + 'px';
+        })
+    },
     watch: {
         userName (newval, oldval) {
             if (newval !== oldval) {
@@ -96,6 +175,17 @@ export default {
         }
     },
     methods: {
+        ...mapMutations({
+            setMicBoxDisplay: 'setMicBoxDisplay',
+            setIsClick: 'setIsClick',
+            setSearchBox: 'setSearchBox'
+        }),
+        getState () {
+            this.isShow = window.sessionStorage.getItem('state');
+        },
+        rootReload (state) {
+           window.sessionStorage.setItem('state', state);
+        },
         // 菜单点击事件
         menuClick (val, index) {
             this.activeIndex = index;
@@ -125,9 +215,33 @@ export default {
                 name: 'login'
             });
             window.sessionStorage.clear();
+        },
+        // 打开底部折叠面板
+        openInfoBox () {
+            this.positionFlag = !this.positionFlag;
+        },
+        // 底部折叠面板mrc点击事件
+        againClickMrc () {
+            if (!this.getMicBoxDisplay) {
+                this.micShow = !this.getMicBoxDisplay;
+            } else {
+                this.micShow = !this.micShow;
+            }
+            this.setMicBoxDisplay(this.micShow);
+            this.setSearchBox(false);
+        },
+        clickMore () {
+            this.showHistoryBox = !this.showHistoryBox;
+            let h = document.body.clientHeight;
+            this.eleHeight = (h / 2) - 4 + 'px';
         }
     },
     beforeRouteUpdate (to, from, next) {
+        if (window.sessionStorage.getItem('state')) {
+            this.$nextTick(() => {
+                this.getState();
+            })
+        }
         next(true);
     }
 }
@@ -151,7 +265,6 @@ export default {
             line-height: 70px;
             span{
                 font-size: 24px;
-                font-style: italic;
                 font-weight: bold;
                 color: #ffffff;
             }
@@ -195,6 +308,135 @@ export default {
         width: 100%;
         height: calc(~'100% - 70px');
         overflow-y: auto;
+    }
+    .quick-btn{
+        i{
+            font-size: 48px;
+        }
+        i:hover{
+            color: #0082df;
+            cursor: pointer;
+        }
+        .more-span{
+            display: block;
+            float: right;
+            line-height: 10px;
+            font-size: 24px;
+        }
+        .more-span:hover{
+            cursor: pointer;
+        }
+    }
+    .history-default{
+        position: absolute;
+        right: -22%;
+        bottom: 0;
+        width: 20%;
+    }
+    .history-running{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);
+        width: 20%;
+        border-radius: 5px;
+        li{
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            margin: 2px 0;
+            border-bottom: 1px #ccc solid;
+            span{
+                display: block;
+                &:nth-child(1){
+                    float: left;
+                    width: 15%;
+                    height: 40px;
+                    padding: 5px;
+                    line-height: 40px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                &:nth-child(2),&:nth-child(3){
+                    float: right;
+                    width: 85%;
+                    line-height: 20px;
+                }
+            }
+        }
+    }
+    .position-box{
+        z-index: 9999;
+        .box-title{
+            width: 100%;
+            height: 35px;
+            background: skyblue;
+            border-radius: 5px;
+            line-height: 35px;
+            color: #ffffff;
+            span{
+                display: block;
+                float: left;
+                &:nth-child(1),&:nth-child(3){
+                    width: 15%;
+                    height: 100%;
+                    text-align: center;
+                    line-height: 35px;
+                }
+                &:nth-child(2){
+                    width: 70%;
+                    height: 100%;
+                }
+                &:nth-child(1),&:nth-child(3):hover{
+                    cursor: pointer;
+                }
+            }
+        }
+        .box-content{
+            background: #fff;
+            width: 100%;
+            margin: 2px 0;
+            overflow-y: auto;
+            border-radius: 5px;
+            li{
+                width: 100%;
+                padding: 0 5px;
+                border-bottom: 1px #ccc solid;
+                span{
+                    display: block;
+                    &:nth-child(1){
+                        float: left;
+                        width: 15%;
+                        height: 40px;
+                        padding: 5px;
+                        line-height: 40px;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    &:nth-child(2),&:nth-child(3){
+                        float: right;
+                        width: 85%;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .position-flag{
+        position: absolute;
+        right: 20%;
+        bottom: 0;
+        text-align: center;
+    }
+    .position-default{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        text-align: center;
     }
 }
 </style>

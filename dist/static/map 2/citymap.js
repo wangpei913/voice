@@ -1,4 +1,4 @@
-var cityMap = {
+export const cityMap = {
     "北京市": "110100",
     "天津市": "120100",
     "上海市": "310100",
@@ -344,4 +344,3 @@ var cityMap = {
     "香港特别行政区": "810100",
     "澳门特别行政区": "820000"
 };
-export default cityMap;

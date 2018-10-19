@@ -22,17 +22,16 @@ export default new Router({
     {
       path: '/index',
       name: 'index',
-      meta: { role: ['admin','super_editor'] },
+      meta: {
+        keepAlive: false
+      },
       component: Index,
-      // component: NewIndex,
       children: [
         ...ChildrenRoute
       ]
     }
   ]
 })
-
-
 // import {userArr} from '../utls/data';
 // initURL(userArr, 'n')
 // export function initURL (arr, N) {

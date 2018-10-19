@@ -36,13 +36,14 @@ export default {
         return {
             form: {
                 name: 'xyjn123',
-                password: 'wo@ni1314'
+                password: ''
             },
             show: false,
             outTimer: null
         }
     },
     mounted () {
+        this.replacePwd();
         this.outTimer = setTimeout(() => {
             this.show = true;
         }, 1000)
@@ -51,7 +52,7 @@ export default {
         goLogin () {
             if (this.form.name === '' || this.form.password === '') {
                 this.$message.error('用户名或者密码不能为空');
-            } else if (this.form.name !== 'xyjn123' || this.form.password !== 'wo@ni1314') {
+            } else if (this.form.name !== 'xyjn123' || this.form.password !== '*********') {
                 this.$message({
                     message: '用户名或者密码不正确',
                     type: 'warning'
@@ -63,9 +64,13 @@ export default {
                 }
                 window.sessionStorage.setItem('user', JSON.stringify(obj))
                 this.$router.push({
-                    name: 'index'
+                    name: 'search'
                 });
             }
+        },
+        replacePwd () {
+            let str = 'wo@ni1314';
+            this.form.password = str.replace(str, '*********');
         }
     }
 }
