@@ -4,11 +4,11 @@ import router from '@/router/';
 
 // axios配置
 axios.defaults.timeout = 6000;
-// if (process.env.NODE_ENV === 'development') {
-//     axios.defaults.baseURL = '/proxy-mark/mrmonitor'
-// } else {
-//     axios.defaults.baseURL = '/mrmonitor'
-// }
+if (process.env.NODE_ENV === 'development') {
+    axios.defaults.baseURL = '/api'
+} else {
+    axios.defaults.baseURL = '/'
+}
 
 // 请求拦截器
 axios.interceptors.request.use(

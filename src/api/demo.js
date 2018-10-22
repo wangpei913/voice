@@ -17,13 +17,13 @@ export function voice (word) {
 }
 // 百度声音转文字
 export function toWords (audioData) {
-    return axios.post('/api/baidu/toWords', audioData); 
+    return axios.post('/baidu/toWords', audioData); 
 }
 // 科大讯飞文字转声音
 export function xfToWords (audioData) {
-    return axios.post('/api/xf/toWords', audioData)
+    return axios.post('/xf/toWords', audioData)
 }
 // 科大讯飞声音转文字
 export function xfToVoice (audioData) {
-    return axios.post('/api/xf/toVoice', audioData)
+    return axios.post('/xf/toVoice', audioData)
 }

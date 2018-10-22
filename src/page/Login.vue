@@ -1,6 +1,7 @@
 <template>
     <div class="login-page">
         <vue-particles
+            style="ba"
             color="#dedede"
             :particleOpacity="0.7"
             :particlesNumber="80"
@@ -22,7 +23,7 @@
                 <p class="login-animation" v-if="show">
                     <span class="span-input">
                         <el-input v-model="form.name" placeholder="用户名"></el-input>
-                        <el-input v-model="form.password" placeholder="密码"></el-input>
+                        <input class="pwd-input" type="password" readonly v-model="form.password" placeholder="密码">
                         <el-button @click.native="goLogin()">登录</el-button>
                     </span>
                 </p>
@@ -36,14 +37,13 @@ export default {
         return {
             form: {
                 name: 'xyjn123',
-                password: ''
+                password: 'wo@ni1314'
             },
             show: false,
             outTimer: null
         }
     },
     mounted () {
-        this.replacePwd();
         this.outTimer = setTimeout(() => {
             this.show = true;
         }, 1000)
@@ -52,7 +52,7 @@ export default {
         goLogin () {
             if (this.form.name === '' || this.form.password === '') {
                 this.$message.error('用户名或者密码不能为空');
-            } else if (this.form.name !== 'xyjn123' || this.form.password !== '*********') {
+            } else if (this.form.name !== 'xyjn123' || this.form.password !== 'wo@ni1314') {
                 this.$message({
                     message: '用户名或者密码不正确',
                     type: 'warning'
@@ -67,10 +67,6 @@ export default {
                     name: 'search'
                 });
             }
-        },
-        replacePwd () {
-            let str = 'wo@ni1314';
-            this.form.password = str.replace(str, '*********');
         }
     }
 }
@@ -107,6 +103,19 @@ export default {
                 left: 0;
                 bottom: 0;
                 margin: auto;
+                .pwd-input{
+                    display: block;
+                    width: 100%;
+                    line-height: 40px;
+                    margin-bottom: 15px;
+                    background: transparent;
+                    border: 1px solid #dcdfe6;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                    color: #606266;
+                    padding: 0 15px;
+                    border-radius: 3px;
+                }
                 .el-input{
                     margin: 15px 0;
                     .el-input__inner{

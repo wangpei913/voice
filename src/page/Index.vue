@@ -316,8 +316,10 @@ export default {
         right: -22%;
         bottom: 0;
         width: 20%;
+        overflow-y: auto;
     }
     .history-running{
+        overflow-y: auto;
         position: absolute;
         right: 0;
         bottom: 0;

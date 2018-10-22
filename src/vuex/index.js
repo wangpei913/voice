@@ -45,8 +45,12 @@ const store = new Vuex.Store({
             sessionStorage.setItem('isRoute', JSON.stringify(data));
         },
         setRouteList ({routeInfo}, data) {
-            routeInfo.routeList.push(data);
-            // sessionStorage.setItem('routeList', JSON.stringify(routeInfo.routeList))
+            if (routeInfo.routeList.length > 11) {
+                routeInfo.routeList = [];
+            } else {
+                routeInfo.routeList.push(data);
+                // sessionStorage.setItem('routeList', JSON.stringify(routeInfo.routeList))
+            }
         },
         setMicBoxDisplay (state, data) {
             state.micBoxDisplay = data;
