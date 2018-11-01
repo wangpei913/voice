@@ -27,7 +27,7 @@
                 </ul>
             </li>
             <li>
-                <audio class="audio-parts" v-if="showPlayBtn" controlsList="nodownload" :src="voiceSrc" controls autoplay ref="audio" width="100%"></audio>
+                <audio class="audio-parts" v-if="showPlayBtn" :src="voiceSrc" controls autoplay ref="audio" width="100%"></audio>
             </li>
         </ul>
         <div class="voice-demo-content" v-text="voiceWords"></div>

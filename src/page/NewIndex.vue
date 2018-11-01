@@ -76,8 +76,6 @@ export default {
     },
     data () {
         return {
-            canvas: null,
-            cxt: null,
             menuList: [
                 {
                     menuname: '政策决策支持',
