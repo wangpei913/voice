@@ -21,6 +21,12 @@ export default {
             testSrc: ''
         }
     },
+    mounted () {
+        let arr = [1, 2, 3, 3, 2, 1, true, true, {}, {}, undefined, undefined, null, null];
+        let res = this.getArrayNoRepeated(arr);
+        console.log(res, 'res');
+        console.log((386485473.88).toLocaleString('en-US'))
+    },
     methods: {
         testBaidu () {
             let w = {
@@ -41,7 +47,20 @@ export default {
             }).catch(err => {
                 console.log(err);
             })
+        },
+        getArrayNoRepeated (arr) {
+            // if (utils.checkObjTypeIsInvalid(arr, 'Array')) return arr;
+            let res = [];
+            let json = {};
+            for (let i = 0; i < arr.length; i++) {
+                if (!json[arr[i]]) {
+                    res.push(arr[i]);
+                    json[arr[i]] = 1;
+                }
+            }
+            return res;
         }
+
     }
 }
 </script>

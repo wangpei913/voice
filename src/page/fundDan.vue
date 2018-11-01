@@ -1,10 +1,23 @@
 <template>
-    <div class="fundDan-page">预测分析</div>
+    <div class="fundDan-page">
+        <show-item :wordsObj="wordsObj" :itemImg="itemImg"></show-item>
+    </div>
 </template>
 <script>
+import ShowItem from './showItem';
 export default {
+    components: {
+        'show-item': ShowItem
+    },
     data () {
-        return {}
+        return {
+            wordsObj: {
+                one: '基金风险管理',
+                two: '挖掘费用增长风险点',
+                three: ''
+            },
+            itemImg: require('../assets/img/jjxx.png')
+        }
     }
 }
 </script>

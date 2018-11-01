@@ -199,7 +199,7 @@
                                 HZRecorder.throwError('无法发现指定的硬件设备。');
                                 break;
                             default:
-                                HZRecorder.throwError('无法打开麦克风。异常信息:' + (error.code || error.name));
+                                // HZRecorder.throwError('无法打开麦克风。异常信息:' + (error.code || error.name));
                                 break;
                         }
                     });

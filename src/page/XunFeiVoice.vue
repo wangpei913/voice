@@ -136,6 +136,7 @@ export default {
             let fd = new FormData();
             fd.append("audioData", _that.recorder.getBlob());
             xfToWords(fd).then(res => {
+                console.log(res.data, 'res')
                 if (res.data.success === true) {
                     if (res.data.data.words && !res.data.data.menu) {
                         _that.state3 = res.data.data.words.substr(0, res.data.data.words.length - 1);

@@ -1,244 +1,749 @@
 <template>
     <div class="new-index">
-        <div class="page-box">
-            <!-- 二维码 -->
-            <div class="erwei">
-                <carousel-com></carousel-com>
+        <header>
+            <ul class="menu-uls">
+                <li v-for="(item, index) in menuList" :key="index">
+                    <router-link :to="{path: item.menupath}">{{item.menuname}}</router-link>
+                </li>
+            </ul>
+            <p class="operation-box">
+                <el-dropdown @command="loginOut()">
+                    <span class="el-dropdown-link">
+                        {{userName}}
+                        <i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>注销</el-dropdown-item>
+                        <el-dropdown-item>更改密码</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </p>
+        </header>
+        <main id="el-main">
+            <transition enter-active-class="zoomIn" leave-active-class="zoomOutRight">
+                <router-view @rootReload="rootReload"></router-view>
+            </transition>
+        </main>
+        <!--录音组件开始-->
+        <transition enter-active-class="zoomIn" leave-active-class="zoomOutRight">
+            <div class="new-voice" v-if="showVoiceCom">
+                <p style="width: 180px;float:left;text-align: center;line-height: 20px;" v-text="voiceComInfo"></p>
+                <div class="dot"></div>
+                <div class="line">
+                    <span :style="{height: spanHeight}"></span>
+                </div>
+                <div class="pulse" v-if="voiceComAnimate"></div>
+                <div class="pulse1" v-if="voiceComAnimate"></div>
             </div>
-            <!-- 二维码 end -->
-
-            <!-- 旋转的圈圈 -->
-            <div class="quan_01"><img src="./yd/images/quan_01.png"></div>
-            <div class="quan_02"><img src="./yd/images/quan_02.png"></div>
-            <!-- 旋转的圈圈 end -->
-
-            <!-- 不安分的小色块 -->
-            <div class="dis_01"><img src="./yd/images/dis_01.png"></div>
-            <div class="dis_02"><img src="./yd/images/dis_02.png"></div>
-            <div class="dis_03"><img src="./yd/images/dis_03.png"></div>
-            <div class="dis_04"><img src="./yd/images/dis_04.png"></div>
-            <div class="dis_05"><img src="./yd/images/dis_05.png"></div>
-            <div class="dis_06"><img src="./yd/images/dis_06.png"></div>
-            <div class="dis_07"><img src="./yd/images/dis_07.png"></div>
-            <!-- 不安分的小色块 end -->
-
-            <!-- 移动的高光 -->
-
-            <div class="yi_guang_01" style="left:50%;top:0;margin:-115px 0 0 -108px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_02" style="left:50%;top:0;margin:-115px 0 0 -308px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_03" style="left:50%;top:0;margin:-115px 0 0 -508px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_04" style="left:50%;top:0;margin:-115px 0 0 -708px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_05" style="left:50%;top:0;margin:-115px 0 0 -908px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_06" style="left:50%;top:0;margin:-115px 0 0 192px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_07" style="left:50%;top:0;margin:-115px 0 0 392px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_08" style="left:50%;top:0;margin:-115px 0 0 592px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_09" style="left:50%;top:0;margin:-115px 0 0 792px;"><img src="./yd/images/yi_guang_01.png"></div>
-            <div class="yi_guang_10" style="left:50%;top:100%;margin:0 0 0 92px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_11" style="left:50%;top:100%;margin:0 0 0 292px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_12" style="left:50%;top:100%;margin:0 0 0 492px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_13" style="left:50%;top:100%;margin:0 0 0 692px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_14" style="left:50%;top:100%;margin:0 0 0 892px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_15" style="left:50%;top:100%;margin:0 0 0 -208px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_16" style="left:50%;top:100%;margin:0 0 0 -408px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_17" style="left:50%;top:100%;margin:0 0 0 -608px;"><img src="./yd/images/yi_guang_02.png"></div>
-            <div class="yi_guang_18" style="left:50%;top:100%;margin:0 0 0 -808px;"><img src="./yd/images/yi_guang_02.png"></div>
-
-            <div class="yi_guang_19" style="left:0%;top:50%;margin:92px 0 0 -115px;"><img src="./yd/images/yi_guang_03.png"></div>
-            <div class="yi_guang_20" style="left:0%;top:50%;margin:292px 0 0 -115px;"><img src="./yd/images/yi_guang_03.png"></div>
-            <div class="yi_guang_21" style="left:0%;top:50%;margin:-208px 0 0 -115px;"><img src="./yd/images/yi_guang_03.png"></div>
-            <div class="yi_guang_22" style="left:0%;top:50%;margin:-408px 0 0 -115px;"><img src="./yd/images/yi_guang_03.png"></div>
-            <div class="yi_guang_23" style="left:100%;top:50%;margin:-108px 0 0 0;"><img src="./yd/images/yi_guang_04.png"></div>
-            <div class="yi_guang_24" style="left:100%;top:50%;margin:-308px 0 0 0;"><img src="./yd/images/yi_guang_04.png"></div>
-            <div class="yi_guang_25" style="left:100%;top:50%;margin:192px 0 0 0;"><img src="./yd/images/yi_guang_04.png"></div>
-            <div class="yi_guang_26" style="left:100%;top:50%;margin:392px 0 0 0;"><img src="./yd/images/yi_guang_04.png"></div>
-
-            <!-- 移动的高光 end -->
-            <!-- 闪烁的星星 -->
-            <div class="stars stars_01" style="margin:-116px 0 0 -516px;"><img src="./yd/images/stars_00.png"></div>
-            <div class="stars stars_03" style="margin:-7px 0 0 -507px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:193px 0 0 -507px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:193px 0 0 -607px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_04" style="margin:95px 0 0 -605px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:-307px 0 0 -607px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-407px 0 0 -807px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-7px 0 0 -807px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:193px 0 0 -807px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_02" style="margin:-210px 0 0 -710px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_04" style="margin:-200px 0 0 -700px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_02" style="margin:90px 0 0 -710px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_04" style="margin:90px 0 0 -700px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:293px 0 0 -707px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:393px 0 0 -707px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_04" style="margin:295px 0 0 -505px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:-102px 0 0 -502px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-107px 0 0 -207px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_02" style="margin:90px 0 0 -210px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_03" style="margin:93px 0 0 -407px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-307px 0 0 -407px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-407px 0 0 -507px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_04" style="margin:295px 0 0 -205px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:293px 0 0 -7px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:293px 0 0 393px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:195px 0 0 395px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_02" style="margin:190px 0 0 390px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_04" style="margin:395px 0 0 295px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_04" style="margin:395px 0 0 495px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:293px 0 0 493px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:393px 0 0 693px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_02" style="margin:190px 0 0 -110px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_02" style="margin:-110px 0 0 -217px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_03" style="margin:-207px 0 0 -7px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_04" style="margin:-305px 0 0 -105px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_02" style="margin:-305px 0 0 -110px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_01" style="margin:-116px 0 0 84px;"><img src="./yd/images/stars_00.png"></div>
-            <div class="stars stars_01" style="margin:-416px 0 0 84px;"><img src="./yd/images/stars_00.png"></div>
-            <div class="stars stars_04" style="margin:-402px 0 0 97px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_04" style="margin:-105px 0 0 295px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:-207px 0 0 193px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_02" style="margin:-310px 0 0 290px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_03" style="margin:-7px 0 0 193px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_04" style="margin:-2px 0 0 198px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:193px 0 0 93px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_01" style="margin:284px 0 0 590px;"><img src="./yd/images/stars_00.png"></div>
-            <div class="stars stars_01" style="margin:-12px 0 0 490px;"><img src="./yd/images/stars_00.png"></div>
-            <div class="stars stars_03" style="margin:293px 0 0 593px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-7px 0 0 493px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-7px 0 0 693px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_04" style="margin:95px 0 0 595px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_04" style="margin:-105px 0 0 595px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_04" style="margin:-205px 0 0 595px;"><img src="./yd/images/stars_03.png"></div>
-            <div class="stars stars_03" style="margin:-205px 0 0 595px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:-207px 0 0 493px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_02" style="margin:-310px 0 0 690px;"><img src="./yd/images/stars_01.png"></div>
-            <div class="stars stars_03" style="margin:-307px 0 0 393px;"><img src="./yd/images/stars_02.png"></div>
-            <div class="stars stars_03" style="margin:193px 0 0 493px;"><img src="./yd/images/stars_02.png"></div>
-            <!-- 闪烁的星星 end -->
+        </transition>
+        <!--录音组件结束-->
+        <!--全局底角mic组件开始-->
+        <div class="quick-btn" v-if="isShow" :class="{'position-default': showHistoryBox === false,'position-flag': showHistoryBox === true}">
+            <i class="iconfont icon-maikefeng" @click="againClickMrc()"></i>
+            <p class="show-info" v-if="getMicRecordInfo" style="line-height: 24px;">
+                <span v-text="getMicRecordInfo" :style="{color: getIsSuccess ? '#13ce66' : '#ff4949'}"></span>
+                <span class="more-span" @click="clickMore()">
+                    <i :class="showHistoryBox ? 'el-icon-arrow-right' : 'el-icon-arrow-left'" style="font-size: 24px;"></i>
+                </span>
+            </p>
         </div>
+        <transition enter-active-class="fadeInRight" leave-active-class="fadeOutRight">
+            <ul :style="{height: eleHeight}" :class="{'history-default': showHistoryBox === false,'history-running': showHistoryBox === true}">
+                <li v-for="(item, index) in getRouteList" :key="index">
+                    <span>
+                        <img :src="imgSrc" alt="" srcset="">
+                    </span>
+                    <span>{{item.key}}</span>
+                    <span>{{item.value}}</span>
+                </li>
+            </ul>
+        </transition>
+        <transition enter-active-class="bounceInUp" leave-active-class="bounceOutUp">
+            <sound-record-com ref="child" v-if="$store.state.micBoxDisplay"></sound-record-com>
+        </transition>
+        <!--全局底角mic组件结束-->
     </div>
 </template>
 <script>
-import TagBall from '../components/vueCom/3DBall';
-import CarouselCOm from '../components/vueCom/3DCarousel';
-import IndexCom from './yd/indexCom';
+import { mapGetters, mapMutations } from 'vuex';
+import AudioAPI from '../utls/AudioAPI.js';
+import {toWords, voice} from '../api/demo.js';
+import {pubSizeValue, averageValue} from '../utls/index';
+import SoundRecordCom from './soundRecordCom';
 export default {
     components: {
-        'index-com': IndexCom,
-        'tag-ball': TagBall,
-        'carousel-com': CarouselCOm
+        'sound-record-com': SoundRecordCom
     },
     data () {
-        return {}
+        return {
+            canvas: null,
+            cxt: null,
+            menuList: [
+                {
+                    menuname: '政策决策支持',
+                    menupath: 'fundPolicy'
+                },
+                {
+                    menuname: '基金运行分析',
+                    menupath: 'fundFore'
+                },
+                {
+                    menuname: '基金风险管理',
+                    menupath: 'fundDan'
+                },
+                {
+                    menuname: '专题解决方案',
+                    menupath: 'fundThematic'
+                },
+                {
+                    menuname: '报告下载',
+                    menupath: 'reportDown'
+                },
+                {
+                    menuname: '站内搜索',
+                    menupath: 'search'
+                }
+            ],
+            userName: JSON.parse(window.sessionStorage.getItem('user')).un,
+            showSubMenu: false,
+            positionFlag: false,
+            eleHeight: 0,
+            imgSrc: require('../assets/img/login.png'),
+            micShow: false,
+            showHistoryBox: false,
+            isShow: false,
+            num: 0,
+            // *******************
+            fristRecorder: '', // 主页唤醒声音实例
+            fristTimer: null, // 唤醒时的定时器载体
+            showVoiceCom: false, // 是不是显示录音组件
+            //*******************
+            voiceComAnimate: true, // 录音动画
+            voiceComInfo: '', // 录音状态
+            voiceComTimer: null, // 录音定时器
+            voiceComRecoeder: '', // 组件声音实例
+            isStopFlag: false, // 判断是不是说完的开关
+            sendTimer: null, // 发送请求的定时器
+            spanHeight: 0
+        }
+    },
+    computed: {
+        ...mapGetters({
+            getIsRoute: 'getIsRoute',
+            getRouteList: 'getRouteList',
+            getMicRecordInfo: 'getMicRecordInfo',
+            getIsSuccess: 'getIsSuccess',
+            getMicBoxDisplay: 'getMicBoxDisplay',
+            getIsClick: 'getIsClick'
+        })
+    },
+    created () {
+        if (window.sessionStorage.getItem('state')) {
+            this.$nextTick(() => {
+                this.getState();
+            })
+        }
+    },
+    beforeMount () {
+        this.setIsClick(true);
+    },
+    mounted () {
+        this.openAwaken();
+        window.addEventListener('resize', () => {
+            let h = document.body.clientHeight;
+            this.eleHeight = (h / 2) - 4 + 'px';
+        })
+    },
+    watch: {
+        userName (newval, oldval) {
+            if (newval !== oldval) {
+                this.$router.push({
+                    name: 'carousel'
+                });
+            }
+        }
+    },
+    methods: {
+        ...mapMutations({
+            setMicBoxDisplay: 'setMicBoxDisplay',
+            setIsClick: 'setIsClick',
+            setSearchBox: 'setSearchBox'
+        }),
+        // 计算话筒音量
+        computeVolume (val, max, min) {
+            if (val >= max) {
+                this.spanHeight = 100 + '%';
+            } else if (val <= min) {
+                this.spanHeight = 10 + '%';
+            } else {
+                let base = max - min;
+                let newValue = val - min;;
+                this.spanHeight = (newValue / base) * 100 + '%';
+            }
+        },
+        // 打开唤醒
+        openAwaken () {
+            let that = this;
+            let recList = [];
+            let count = 0;
+            HZRecorder.get(function (rec) {
+                that.fristRecorder = rec;   
+                that.fristRecorder.start();
+            })
+            AudioAPI.start().then(analyser => {
+                that.fristTimer = setInterval(function () {
+                    let a = AudioAPI.getVoiceSize(analyser);
+                    count++;
+                    if (recList.length === 20) {
+                        let max = Math.max(...recList);
+                        let min = Math.min(...recList);
+                        let s = averageValue(recList);
+                        if (count % 2 === 0) {
+                            that.computeVolume(a, max, min);
+                        }
+                        if (pubSizeValue(max, min) < 4000) {
+                            clearInterval(that.fristTimer);
+                            that.fristRecorder.stop();
+                            that.openAwaken();
+                        } else if (a < s) {
+                            that.awakenRes();
+                            clearInterval(that.fristTimer);
+                            that.fristRecorder.stop();
+                        }
+                    } else if (recList.length < 20) {
+                        recList.push(a);
+                    }
+                }, 100);
+            })
+        },
+        // 关闭唤醒
+        stopAwake () {
+            clearInterval(this.fristTimer);
+            this.fristRecorder.stop();
+        },
+        // 唤醒反馈结果
+        awakenRes () {
+            let that = this;
+            let fd = new FormData();
+            fd.append("audioData", that.fristRecorder.getBlob());
+            toWords(fd).then(res => {
+                if (res.data.success === true) {
+                    if (res.data.data.words.substr(0, res.data.data.words.length - 1).indexOf('你好') > -1 || res.data.data.words.substr(0, res.data.data.words.length - 1).indexOf('您好') > -1) {
+                        that.stopAwake();
+                        that.showVoiceCom = true;
+                        that.voiceComAnimate = true;
+                        that.recordStart();
+                    } else {
+                        that.showVoiceCom = false;
+                        that.stopAwake();
+                        that.openAwaken();
+                    }
+                } else {
+                    that.stopAwake();
+                    that.openAwaken();
+                }
+            }).catch(err => {
+                that.stopAwake();
+                that.openAwaken();
+            })
+        },
+        getState () {
+            this.isShow = window.sessionStorage.getItem('state');
+        },
+        rootReload (state) {
+           window.sessionStorage.setItem('state', state);
+        },
+        // 菜单点击事件
+        menuClick (val, index) {
+            if (val.subMenu && val.subMenu.length > 0) {
+                this.showSubMenu = true;
+            } else {
+                this.showSubMenu = false;
+                this.$router.push({
+                    name: val.menupath
+                });
+            }
+        },
+        // 二级菜单点击事件
+        secondClick (val, index) {
+            if (val.subMenu && val.subMenu.length > 0) {
+                this.showSubMenu = true;
+            } else {
+                this.showSubMenu = false;
+                this.$router.push({
+                    name: val.menupath
+                });
+            }
+        },
+        // 注销点击事件
+        loginOut () {
+            this.$router.push({
+                name: 'login'
+            });
+            window.sessionStorage.clear();
+        },
+        // 打开底部折叠面板
+        openInfoBox () {
+            this.positionFlag = !this.positionFlag;
+        },
+        // 底部折叠面板mrc点击事件
+        againClickMrc () {
+            if (!this.getMicBoxDisplay) {
+                this.micShow = !this.getMicBoxDisplay;
+            } else {
+                this.micShow = !this.micShow;
+            }
+            this.setMicBoxDisplay(this.micShow);
+            this.setSearchBox(false);
+        },
+        clickMore () {
+            this.showHistoryBox = !this.showHistoryBox;
+            let h = document.body.clientHeight;
+            this.eleHeight = (h / 2) - 4 + 'px';
+        },
+        ////////////////////
+        // 开始录音
+        recordStart () {
+            let that = this;
+            let recList = [];
+            let count = 0;
+            that.voiceComInfo = '录音中...';
+            HZRecorder.get(function (rec) {
+                that.voiceComRecoeder = rec;
+                that.voiceComRecoeder.start();
+            })
+            AudioAPI.start().then(analyser => {
+                that.voiceComTimer = setInterval(function () {
+                    let a = AudioAPI.getVoiceSize(analyser);
+                    count++;
+                    if (recList.length === 20) {
+                        let max = Math.max(...recList);
+                        let min = Math.min(...recList);
+                        let s = averageValue(recList);
+                        if (count % 2 === 0) {
+                            that.computeVolume(a, max, min);
+                        }
+                        if (pubSizeValue(max, min) < 2000) {
+                            clearInterval(that.voiceComTimer);
+                            that.voiceComRecoeder.stop();
+                            that.voiceComAnimate = false;
+                            that.voiceComInfo = '重新唤醒继续使用';
+                            that.openAwaken();
+                        } else if (a < s) {
+                            that.isStopFlag = true;
+                        } else if (a > s) {
+                            that.isStopFlag = false;
+                        }
+                    } else if (recList.length < 20) {
+                        recList.push(a);
+                    }
+                }, 100);
+            })
+        },
+        // 发送请求
+        sendData () {
+            let that = this;
+            let fd = new FormData();
+            fd.append("audioData", that.voiceComRecoeder.getBlob());
+            toWords(fd).then(res => {
+                if (res.data.success === true) {
+                    if (res.data.data.menu) {
+                        window.sessionStorage.setItem('state', true);
+                        that.voiceComAnimate = false;
+                        that.isStopFlag = false;
+                        that.showVoiceCom = false;
+                        clearInterval(that.voiceComTimer);
+                        that.stopAwake();
+                        that.$router.push({
+                            name: res.data.data.menu
+                        });
+                    } else {
+                        let str = '重新唤醒继续使用';
+                        that.voiceComAnimate = false;
+                        that.voiceComInfo = str;
+                        that.openAwaken();
+                    }
+                } else {
+                    let str = '重新唤醒继续使用';
+                    that.voiceComAnimate = false;
+                    that.voiceComInfo = str;
+                    that.openAwaken();
+                }
+            }).catch(err => {
+                let str = '重新唤醒继续使用';
+                that.voiceComInfo = str;
+                that.openAwaken();
+                console.log(err)
+            })
+        }
+    },
+    watch: {
+        isStopFlag (val) {
+            if (val === true) {
+                this.sendTimer = setTimeout(() => {
+                    clearInterval(this.voiceComTimer);
+                    this.voiceComRecoeder.stop();
+                    this.voiceComInfo = '发送中...';
+                    this.voiceComAnimate = false;
+                    this.sendData();
+                }, 1000)
+            } else {
+                clearInterval(this.sendTimer);
+            }
+        }
+    },
+    beforeRouteUpdate (to, from, next) {
+        if (window.sessionStorage.getItem('state')) {
+            this.$nextTick(() => {
+                this.getState();
+            })
+        }
+        clearInterval(this.voiceComTimer);
+        this.stopAwake();
+        this.openAwaken();
+        next(true);
     }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .new-index{
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
-    background-color: rgb(9, 42, 78);
-    position: relative;
-    overflow: hidden;
-    .page-box{
+    header{
         width: 100%;
-        height: 100%;
+        height: 70px;
+        color: #ffffff;
+        background: #262f42;
+        .logo-box{
+            width: 10%;
+            height: 100%;
+            float: left;
+            text-align: center;
+            line-height: 70px;
+            span{
+                font-size: 24px;
+                font-weight: bold;
+                color: #ffffff;
+            }
+        }
+        .menu-uls{
+            width: 60%;
+            height: 100%;
+            margin: 0 auto;
+            float: left;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            li{
+                line-height: 70px;
+                flex: 1;
+                font-size: 16px;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                a{
+                    flex: 1;
+                    text-align: center;
+                    color: #ffffff;
+                    cursor: pointer;
+                }
+            }
+        }
+        .operation-box{
+            width: 10%;
+            height: 100%;
+            float: right;
+            text-align: center;
+            line-height: 70px;
+            .el-dropdown{
+                color: #ffffff;
+            }
+        }
+    }
+    main{
+        width: 100%;
+        height: calc(~'100% - 70px');
+        overflow-y: auto;
+    }
+    .new-voice{
+        width: 200px;
+        height: 200px;
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        @-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(-45deg)}100%{-webkit-transform:rotateZ(315deg)}}
-        @keyframes rotate{0%{transform:rotateZ(-45deg)}100%{transform:rotateZ(315deg)}}
-
-        @-webkit-keyframes rotate_x{0%{-webkit-transform:rotateZ(45deg)}100%{-webkit-transform:rotateZ(-315deg)}}
-        @keyframes rotate_x{0%{transform:rotateZ(45deg)}100%{transform:rotateZ(-315deg)}}
-
-        @-webkit-keyframes top{0%{top:0%;}30%{top:120%;}40%{-webkit-transform:rotateZ(0deg)}50%{top:120%;-webkit-transform:rotateZ(180deg)}80%{top:-10%;}90%{-webkit-transform:rotateZ(180deg)}100%{top:0%;}}
-        @keyframes top{0%{top:0%;}30%{top:120%;}40%{transform:rotateZ(0deg)}50%{top:120%;transform:rotateZ(180deg)}80%{top:-10%;}90%{transform:rotateZ(180deg)}100%{top:0%;}}
-
-        @-webkit-keyframes bottom{0%{top:100%;}30%{top:-20%;}40%{-webkit-transform:rotateZ(0deg)}50%{top:-20%;-webkit-transform:rotateZ(180deg)}80%{top:120%;}90%{-webkit-transform:rotateZ(180deg)}100%{top:100%;}}
-        @keyframes bottom{0%{top:100%;}30%{top:-20%;}40%{transform:rotateZ(0deg)}50%{top:-20%;transform:rotateZ(180deg)}80%{top:120%;}90%{transform:rotateZ(180deg)}100%{top:100%;}}
-
-        @-webkit-keyframes left{0%{left:0%;}30%{left:120%;}40%{-webkit-transform:rotateZ(0deg)}50%{left:120%;-webkit-transform:rotateZ(180deg)}80%{left:-10%;}90%{-webkit-transform:rotateZ(180deg)}100%{left:0%;}}
-        @keyframes left{0%{left:0%;}30%{left:120%;}40%{transform:rotateZ(0deg)}50%{left:120%;transform:rotateZ(180deg)}80%{left:-10%;}90%{transform:rotateZ(180deg)}100%{left:0%;}}
-
-        @-webkit-keyframes right{0%{left:100%;}30%{left:-20%;}40%{-webkit-transform:rotateZ(0deg)}50%{left:-20%;-webkit-transform:rotateZ(180deg)}80%{left:120%;}90%{-webkit-transform:rotateZ(180deg)}100%{left:100%;}}
-        @keyframes right{0%{left:100%;}30%{left:-20%;}40%{transform:rotateZ(0deg)}50%{left:-20%;transform:rotateZ(180deg)}80%{left:120%;}90%{transform:rotateZ(180deg)}100%{left:100%;}}
-
-        @-webkit-keyframes dis_01{0%{margin:-450px 0 0 -365px;}25%{margin:-450px 0 0 -335px;}50%{margin:-420px 0 0 -335px;}75%{margin:-420px 0 0 -365px;}100%{margin:-450px 0 0 -365px;}}
-        @keyframes dis_01{0%{margin:-450px 0 0 -365px;}25%{margin:-450px 0 0 -335px;}50%{margin:-420px 0 0 -335px;}75%{margin:-420px 0 0 -365px;}100%{margin:-450px 0 0 -365px;}}
-        @-webkit-keyframes dis_02{0%{margin:-510px 0 0 280px;}25%{margin:-510px 0 0 260px;}50%{margin:-490px 0 0 260px;}75%{margin:-490px 0 0 280px;}100%{margin:-510px 0 0 280px;}}
-        @keyframes dis_02{0%{margin:-510px 0 0 280px;}25%{margin:-510px 0 0 260px;}50%{margin:-490px 0 0 260px;}75%{margin:-490px 0 0 280px;}100%{margin:-510px 0 0 280px;}}
-        @-webkit-keyframes dis_03{0%{margin:-200px 0 0 -380px;}50%{margin:-220px 0 0 -400px;}100%{margin:-200px 0 0 -380px;}}
-        @keyframes dis_03{0%{margin:-200px 0 0 -380px;}50%{margin:-220px 0 0 -400px;}100%{margin:-200px 0 0 -380px;}}
-        @-webkit-keyframes dis_04{0%{margin:-90px 0 0 350px;}50%{margin:-90px 0 0 380px;}100%{margin:-90px 0 0 350px;}}
-        @keyframes dis_04{0%{margin:-90px 0 0 350px;}50%{margin:-90px 0 0 380px;}100%{margin:-90px 0 0 350px;}}
-        @-webkit-keyframes dis_05{0%{margin:160px 0 0 280px;}50%{margin:140px 0 0 260px;}100%{margin:160px 0 0 280px;}}
-        @keyframes dis_05{0%{margin:160px 0 0 280px;}50%{margin:140px 0 0 260px;}100%{margin:160px 0 0 280px;}}
-        @-webkit-keyframes dis_06{0%{margin:290px 0 0 -450px;}50%{margin:270px 0 0 -450px;}100%{margin:290px 0 0 -450px;}}
-        @keyframes dis_06{0%{margin:290px 0 0 -450px;}50%{margin:270px 0 0 -450px;}100%{margin:290px 0 0 -450px;}}
-        @-webkit-keyframes dis_07{0%{margin:315px 0 0 -55px;}50%{margin:315px 0 0 -35px;}100%{margin:315px 0 0 -55px;}}
-        @keyframes dis_07{0%{margin:315px 0 0 -55px;}50%{margin:315px 0 0 -35px;}100%{margin:315px 0 0 -55px;}}
-
-        @-webkit-keyframes stars{0%{-webkit-transform:rotateZ(0deg);opacity:1;}50%{-webkit-transform:rotateZ(180deg);opacity:0;}100%{-webkit-transform:rotateZ(360deg);opacity:1;}}
-        @keyframes stars{0%{transform:rotateZ(0deg);opacity:1;}50%{transform:rotateZ(180deg);opacity:0;}100%{transform:rotateZ(360deg);opacity:1;}}
-        @-webkit-keyframes stars_1{0%{-webkit-transform:rotateZ(0deg);opacity:0;}50%{-webkit-transform:rotateZ(180deg);opacity:1;}100%{-webkit-transform:rotateZ(360deg);opacity:0;}}
-        @keyframes stars_1{0%{transform:rotateZ(0deg);opacity:0;}50%{transform:rotateZ(180deg);opacity:1;}100%{transform:rotateZ(360deg);opacity:0;}}
-
-        .quan_01{width:680px;height:680px;position:absolute;top:50%;left:50%;margin:-340px 0 0 -340px;z-index:2;-webkit-animation:rotate_x 10s linear 0s infinite;animation:rotate_x 10s linear 0s infinite;}
-        .quan_02{width:820px;height:820px;position:absolute;top:50%;left:50%;margin:-410px 0 0 -410px;z-index:6;-webkit-animation:rotate 16s linear 0s infinite;animation:rotate 16s linear 0s infinite;}
-        .erwei{
-            width:600px;
-            height:600px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        .dot{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             position: absolute;
-            left: 0;
-            right: 0;
             top: 0;
+            right: 0;
+            left: 0;
             bottom: 0;
             margin: auto;
+            text-align: center;
+            line-height: 50px;
+            background: url('../assets/img/mike.png') no-repeat;
+            background-size: 100% 100%;
+            z-index: 1000;
         }
-        .dis_01{top:50%;left:50%;margin:-450px 0 0 -365px;width:127px;height:116px;position:absolute;z-index:1;-webkit-animation:dis_01 8s linear 0s infinite;animation:dis_01 8s linear 0s infinite;}
-        .dis_02{top:50%;left:50%;margin:-510px 0 0 280px;width:188px;height:205px;position:absolute;z-index:1;-webkit-animation:dis_02 12s linear 0s infinite;animation:dis_02 12s linear 0s infinite;}
-        .dis_03{top:50%;left:50%;margin:-200px 0 0 -350px;width:94px;height:99px;position:absolute;z-index:5;-webkit-animation:dis_03 6s linear 0s infinite;animation:dis_03 6s linear 0s infinite;}
-        .dis_04{top:50%;left:50%;margin:-90px 0 0 370px;width:58px;height:73px;position:absolute;z-index:10;-webkit-animation:dis_04 5s linear 0s infinite;animation:dis_04 5s linear 0s infinite;}
-        .dis_05{top:50%;left:50%;margin:160px 0 0 280px;width:89px;height:113px;position:absolute;z-index:5;-webkit-animation:dis_05 8s linear 0s infinite;animation:dis_05 8s linear 0s infinite;}
-        .dis_06{top:50%;left:50%;margin:250px 0 0 -450px;width:138px;height:111px;position:absolute;z-index:10;-webkit-animation:dis_06 4s linear 0s infinite;animation:dis_06 4s linear 0s infinite;}
-        .dis_07{top:50%;left:50%;margin:315px 0 0 -55px;width:71px;height:90px;position:absolute;z-index:1;-webkit-animation:dis_07 5s linear 0s infinite;animation:dis_07 5s linear 0s infinite;}
-        .yi_guang_01,.yi_guang_02,.yi_guang_03,.yi_guang_04,.yi_guang_05,.yi_guang_06,.yi_guang_07,.yi_guang_08,.yi_guang_09,.yi_guang_10,.yi_guang_11,.yi_guang_12,.yi_guang_13,.yi_guang_14,.yi_guang_15,.yi_guang_16,.yi_guang_17,.yi_guang_18{position:absolute;width:19px;height:115px;z-index:3;}
-        .yi_guang_19,.yi_guang_20,.yi_guang_21,.yi_guang_22,.yi_guang_23,.yi_guang_24,.yi_guang_25,.yi_guang_26{position:absolute;width:115px;height:19px;z-index:3;}
-        .yi_guang_01{-webkit-animation:top 16s linear 0s infinite;animation:top 16s linear 0s infinite;}
-        .yi_guang_02{-webkit-animation:top 21s linear 0s infinite;animation:top 21s linear 0s infinite;}
-        .yi_guang_03{-webkit-animation:top 19s linear 0s infinite;animation:top 19s linear 0s infinite;}
-        .yi_guang_04{-webkit-animation:top 27s linear 0s infinite;animation:top 27s linear 0s infinite;}
-        .yi_guang_05{-webkit-animation:top 24s linear 0s infinite;animation:top 24s linear 0s infinite;}
-        .yi_guang_06{-webkit-animation:top 15s linear 0s infinite;animation:top 15s linear 0s infinite;}
-        .yi_guang_07{-webkit-animation:top 18s linear 0s infinite;animation:top 18s linear 0s infinite;}
-        .yi_guang_08{-webkit-animation:top 14s linear 0s infinite;animation:top 14s linear 0s infinite;}
-        .yi_guang_09{-webkit-animation:top 22s linear 0s infinite;animation:top 22s linear 0s infinite;}
-        .yi_guang_10{-webkit-animation:bottom 14s linear 0s infinite;animation:bottom 14s linear 0s infinite;}
-        .yi_guang_11{-webkit-animation:bottom 22s linear 0s infinite;animation:bottom 22s linear 0s infinite;}
-        .yi_guang_12{-webkit-animation:bottom 18s linear 0s infinite;animation:bottom 19s linear 0s infinite;}
-        .yi_guang_13{-webkit-animation:bottom 15s linear 0s infinite;animation:bottom 15s linear 0s infinite;}
-        .yi_guang_14{-webkit-animation:bottom 24s linear 0s infinite;animation:bottom 24s linear 0s infinite;}
-        .yi_guang_15{-webkit-animation:bottom 16s linear 0s infinite;animation:bottom 16s linear 0s infinite;}
-        .yi_guang_16{-webkit-animation:bottom 19s linear 0s infinite;animation:bottom 19s linear 0s infinite;}
-        .yi_guang_17{-webkit-animation:bottom 30s linear 0s infinite;animation:bottom 30s linear 0s infinite;}
-        .yi_guang_18{-webkit-animation:bottom 27s linear 0s infinite;animation:bottom 27s linear 0s infinite;}
-        .yi_guang_19{-webkit-animation:left 20s linear 0s infinite;animation:left 20s linear 0s infinite;}
-        .yi_guang_20{-webkit-animation:left 28s linear 0s infinite;animation:left 28s linear 0s infinite;}
-        .yi_guang_21{-webkit-animation:left 24s linear 0s infinite;animation:left 24s linear 0s infinite;}
-        .yi_guang_22{-webkit-animation:left 21s linear 0s infinite;animation:left 21s linear 0s infinite;}
-        .yi_guang_23{-webkit-animation:right 30s linear 0s infinite;animation:right 30s linear 0s infinite;}
-        .yi_guang_24{-webkit-animation:right 22s linear 0s infinite;animation:right 22s linear 0s infinite;}
-        .yi_guang_25{-webkit-animation:right 25s linear 0s infinite;animation:right 25s linear 0s infinite;}
-        .yi_guang_26{-webkit-animation:right 27s linear 0s infinite;animation:right 27s linear 0s infinite;}
-        .stars{position: absolute;z-index: 1;top: 385px;left: 838px;top:50%;left:50%;}
-        .start img{width:100%;height:100%;}
-        .stars_01{width:32px;height:32px;-webkit-animation:stars 5s linear 0s infinite;animation:stars 5s linear 0s infinite;}
-        .stars_02{width:20px;height:20px;-webkit-animation:stars 4s linear 0s infinite;animation:stars 4s linear 0s infinite;}
-        .stars_03{width:14px;height:14px;-webkit-animation:stars_1 5s linear 0s infinite;animation:stars_1 5s linear 0s infinite;}
-        .stars_04{width:10px;height:10px;-webkit-animation:stars_1 3s linear 0s infinite;animation:stars_1 3s linear 0s infinite;}
+        .line{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            z-index: -1;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            text-align: center;
+            line-height: 40px;
+            overflow: hidden;
+            span{
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                background: #35d2ff;
+                display: inline-block;
+                width: 100%;
+                height: 0;
+                transition: height 0.1s;
+            }
+        }
+        .pulse {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            border: 2px solid #3399ff;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0;
+            -webkit-animation: warn 2s ease-out;
+            -moz-animation: warn 2s ease-out;
+            animation: warn 2s ease-out;
+            -webkit-animation-iteration-count: infinite;
+            -moz-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+        }
+        .pulse1 {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            border: 2px solid #3399ff;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0;
+            -webkit-animation: warn1 2s ease-out;
+            -moz-animation: warn1 2s ease-out;
+            animation: warn1 2s ease-out;
+            -webkit-animation-iteration-count: infinite;
+            -moz-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+        }
+    }
+    .quick-btn{
+        i{
+            font-size: 48px;
+        }
+        i:hover{
+            color: #0082df;
+            cursor: pointer;
+        }
+        .more-span{
+            display: block;
+            float: right;
+            line-height: 24px;
+            font-size: 24px;
+        }
+        .more-span:hover{
+            cursor: pointer;
+        }
+    }
+    .history-default{
+        position: absolute;
+        right: -22%;
+        bottom: 0;
+        width: 20%;
+        overflow-y: auto;
+    }
+    .history-running{
+        overflow-y: auto;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);
+        width: 20%;
+        border-radius: 5px;
+        li{
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            margin: 2px 0;
+            border-bottom: 1px #ccc solid;
+            span{
+                display: block;
+                &:nth-child(1){
+                    float: left;
+                    width: 15%;
+                    height: 40px;
+                    padding: 5px;
+                    line-height: 40px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                &:nth-child(2),&:nth-child(3){
+                    float: right;
+                    width: 85%;
+                    line-height: 20px;
+                }
+            }
+        }
+    }
+    .position-box{
+        z-index: 9999;
+        .box-title{
+            width: 100%;
+            height: 35px;
+            background: skyblue;
+            border-radius: 5px;
+            line-height: 35px;
+            color: #ffffff;
+            span{
+                display: block;
+                float: left;
+                &:nth-child(1),&:nth-child(3){
+                    width: 15%;
+                    height: 100%;
+                    text-align: center;
+                    line-height: 35px;
+                }
+                &:nth-child(2){
+                    width: 70%;
+                    height: 100%;
+                }
+                &:nth-child(1),&:nth-child(3):hover{
+                    cursor: pointer;
+                }
+            }
+        }
+        .box-content{
+            background: #fff;
+            width: 100%;
+            margin: 2px 0;
+            overflow-y: auto;
+            border-radius: 5px;
+            li{
+                width: 100%;
+                padding: 0 5px;
+                border-bottom: 1px #ccc solid;
+                span{
+                    display: block;
+                    &:nth-child(1){
+                        float: left;
+                        width: 15%;
+                        height: 40px;
+                        padding: 5px;
+                        line-height: 40px;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    &:nth-child(2),&:nth-child(3){
+                        float: right;
+                        width: 85%;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .position-flag{
+        position: absolute;
+        right: 20%;
+        bottom: 0;
+        text-align: center;
+    }
+    .position-default{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+    }
+}
+@keyframes warn {
+    0% {
+        transform: scale(0.3);
+        -webkit-transform: scale(0.3);
+        opacity: 0.0;
+    }
+    25% {
+        transform: scale(0.3);
+        -webkit-transform: scale(0.3);
+        opacity: 0.1;
+    }
+    50% {
+        transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        opacity: 0.3;
+    }
+    75% {
+        transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        opacity: 0.0;
+    }
+}
+@keyframes warn1 {
+    0% {
+        transform: scale(0.3);
+        -webkit-transform: scale(0.3);
+        opacity: 0.0;
+    }
+    25% {
+        transform: scale(0.3);
+        -webkit-transform: scale(0.3);
+        opacity: 0.1;
+    }
+    50% {
+        transform: scale(0.3);
+        -webkit-transform: scale(0.3);
+        opacity: 0.3;
+    }
+    75% {
+        transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        opacity: 0.0;
     }
 }
 </style>

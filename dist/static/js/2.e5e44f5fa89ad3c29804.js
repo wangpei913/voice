@@ -1,2 +1,0 @@
-webpackJsonp([2],{gXv2:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a={render:function(){var e=this.$createElement;return(this._self._c||e)("div",{staticClass:"fundDan-page"},[this._v("预测分析")])},staticRenderFns:[]};var i=n("VU/8")({data:function(){return{}}},a,!1,function(e){n("kieO")},"data-v-8c50568c",null);t.default=i.exports},kieO:function(e,t){}});
-//# sourceMappingURL=2.e5e44f5fa89ad3c29804.js.map

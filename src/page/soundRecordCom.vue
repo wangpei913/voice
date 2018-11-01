@@ -40,10 +40,14 @@ export default {
         }
     },
     mounted () {
-        if (this.$store.state.micBoxDisplay === true || this.$store.state.showSearchBox) {
+        // if (this.$store.state.micBoxDisplay === true) {
+        //     this.fristLoading();
+        // }
+        if (this.recorder === '') {
             this.fristLoading();
         }
     },
+    created () {},
     methods: {
         ...mapMutations({
             setMicRecordInfo: 'setMicRecordInfo',
@@ -53,6 +57,9 @@ export default {
             setIsClick: 'setIsClick',
             setRecordModelValue: 'setRecordModelValue'
         }),
+        childrenFn () {
+            alert('1234567890')
+        },
         // 页面第一次加载时候触发的事件
         fristLoading () {
             this.micAnimateFlag = true;
@@ -77,7 +84,9 @@ export default {
         closeRecord () {
             this.$store.dispatch('commitMicBoxDisplay', false);
             this.micAnimateFlag = false;
-            this.recorder.stop();
+            let _that = this;
+            _that.recorder.stop();
+            _that.recondAgain = true;
         },
         // 获取日期时间
         getNowFormatDate () {
@@ -203,6 +212,9 @@ export default {
         //         })
         //     }
         // }
+    },
+    beforeDestroy () {
+        delete this.recorder;
     }
 }
 </script>
@@ -218,7 +230,7 @@ export default {
     margin: auto;
     z-index: 1000;
     .mic-box{
-        width: 100%;
+        // width: 100%;
         height: calc(~'100% - 30px');
         position: relative;
         span{

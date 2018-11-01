@@ -1,6 +1,6 @@
 import axios from 'axios';
-import store from '@/vuex/';
-import router from '@/router/';
+// import store from '@/vuex/';
+// import router from '@/router/';
 
 // axios配置
 axios.defaults.timeout = 6000;

@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '../page/Index.vue';
+// import Index from '../page/Index.vue';
 import Login from '../page/Login.vue';
 import ChildrenRoute from './children.route';
-// import NewIndex from '../page/NewIndex.vue'
+import NotFound from '../page/NotFound';
+import NewIndex from '../page/NewIndex'
 
 Vue.use(Router)
 
@@ -25,12 +26,17 @@ export default new Router({
       meta: {
         keepAlive: false
       },
-      component: Index,
+      component: NewIndex,
       children: [
         ...ChildrenRoute
       ]
+    },
+    {
+      path: '*',
+      component: NotFound
     }
-  ]
+  ],
+  linkActiveClass: 'is-active'
 })
 // import {userArr} from '../utls/data';
 // initURL(userArr, 'n')

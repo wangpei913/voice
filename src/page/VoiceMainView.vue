@@ -14,6 +14,9 @@
 import BaiduCom from './BaiDuVoice';
 import KeDaXunFeiCom from './XunFeiVoice';
 import TestVoice from './TestVoice';
+import AnotherVoice from './AnotherVoice';
+import Awaken from './Awaken';
+import AwakenTwo from './Awaken2';
 export default {
     data () {
         return {
@@ -40,6 +43,7 @@ export default {
             return com;
         }
     },
+    mounted () {},
     methods: {
         clickTabs (index) {
             this.tabActive = index;

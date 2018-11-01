@@ -8,8 +8,8 @@
                         <span class="line1"></span>
                     </div> 
                 </div>
-                <span class="frist-circle" v-if="animateShow"></span>
-                <span class="second-circle" v-if="animateShow"></span>
+                <div class="frist-circle" v-if="animateShow"></div>
+                <div class="second-circle" v-if="animateShow"></div>
             </div>
             <p class="stop-btn">
                 <el-button @click="stopRecord()" type="primary" size="mini">停止录音</el-button>
@@ -89,6 +89,7 @@ export default {
             }
         }
     },
+    mounted () {},
     methods: {
         // 获取日期时间
         getNowFormatDate () {
@@ -269,7 +270,7 @@ export default {
         margin-top: 5px;
     }
     .sound-record-com{
-        width: 10%;
+        width: 20%;
         height: 165px;
         position: absolute;
         left: 0;

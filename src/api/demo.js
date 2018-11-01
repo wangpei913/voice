@@ -11,7 +11,7 @@ export function county (n) {
 }
 // 百度文字转声音
 export function voice (word) {
-    return axios.post('/api/baidu/toVoice', {
+    return axios.post('/baidu/toVoice', {
         ...word
     });
 }

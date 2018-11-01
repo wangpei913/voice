@@ -1,16 +1,16 @@
 <template>
     <div class="index-page">
         <header>
-            <p class="logo-box">
+            <!-- <p class="logo-box">
                 <router-link :to="{path: '/carousel'}">
                     <span>樂</span>
                     <span>分</span>
                     <span>享</span>
                 </router-link>
-            </p>
+            </p> -->
             <ul class="menu-uls">
-                <li v-for="(item, index) in menuList" :key="index" @click="menuClick(item, index)" :class="{'lis-active': activeIndex === index}">
-                    <span class="frist-span">{{item.menuname}}</span>
+                <li v-for="(item, index) in menuList" :key="index">
+                    <router-link :to="{path: item.menupath}">{{item.menuname}}</router-link>
                 </li>
             </ul>
             <p class="operation-box">
@@ -32,10 +32,12 @@
             </transition>
         </main>
         <div class="quick-btn" v-if="isShow" :class="{'position-default': showHistoryBox === false,'position-flag': showHistoryBox === true}">
-            <i class="iconfont icon-maikefeng" @click="getIsClick && againClickMrc()"></i>
-            <p class="show-info" v-if="getMicRecordInfo">
+            <i class="iconfont icon-maikefeng" @click="againClickMrc()"></i>
+            <p class="show-info" v-if="getMicRecordInfo" style="line-height: 24px;">
                 <span v-text="getMicRecordInfo" :style="{color: getIsSuccess ? '#13ce66' : '#ff4949'}"></span>
-                <span class="more-span" @click="clickMore()">......</span>
+                <span class="more-span" @click="clickMore()">
+                    <i :class="showHistoryBox ? 'el-icon-arrow-right' : 'el-icon-arrow-left'" style="font-size: 24px;"></i>
+                </span>
             </p>
         </div>
         <transition enter-active-class="fadeInRight" leave-active-class="fadeOutRight">
@@ -50,7 +52,7 @@
             </ul>
         </transition>
         <transition enter-active-class="bounceInUp" leave-active-class="bounceOutUp">
-            <sound-record-com v-if="$store.state.micBoxDisplay"></sound-record-com>
+            <sound-record-com ref="child" v-if="$store.state.micBoxDisplay"></sound-record-com>
         </transition>
     </div>
 </template>
@@ -58,7 +60,6 @@
 import carouselPage from '../page/Carousel';
 import SoundRecordCom from './soundRecordCom';
 import { mapGetters, mapMutations } from 'vuex';
-import { stat } from 'fs';
 export default {
     components: {
         'carousel-com': carouselPage,
@@ -67,37 +68,21 @@ export default {
     data () {
         return {
             menuList: [
-                // {
-                //     menuname: 'CSS',
-                //     menupath: 'css'
-                // },
-                // {
-                //     menuname: 'JavaScript',
-                //     menupath: 'js'
-                // },
-                // {
-                //     menuname: 'Vue',
-                //     menupath: 'vue'
-                // },
-                // {
-                //     menuname: 'React',
-                //     menupath: 'react'
-                // },
                 {
-                    menuname: '参保人口',
-                    menupath: 'fundPop'
+                    menuname: '政策决策支持',
+                    menupath: 'fundPolicy'
                 },
-                // {
-                //     menuname: 'Echarts',
-                //     menupath: 'echarts'
-                // },
                 {
-                    menuname: '运行现状',
+                    menuname: '基金运行分析',
                     menupath: 'fundFore'
                 },
                 {
-                    menuname: '预测分析',
+                    menuname: '基金风险管理',
                     menupath: 'fundDan'
+                },
+                {
+                    menuname: '专题解决方案',
+                    menupath: 'fundThematic'
                 },
                 {
                     menuname: '报告下载',
@@ -107,12 +92,7 @@ export default {
                     menuname: '站内搜索',
                     menupath: 'search'
                 }
-                // {
-                //     menuname: 'Practice',
-                //     menupath: 'practice'
-                // }
             ],
-            activeIndex: '',
             userName: JSON.parse(window.sessionStorage.getItem('user')).un,
             showSubMenu: false,
             positionFlag: false,
@@ -120,7 +100,8 @@ export default {
             imgSrc: require('../assets/img/login.png'),
             micShow: false,
             showHistoryBox: false,
-            isShow: false
+            isShow: false,
+            num: 0
         }
     },
     computed: {
@@ -172,7 +153,6 @@ export default {
         },
         // 菜单点击事件
         menuClick (val, index) {
-            this.activeIndex = index;
             if (val.subMenu && val.subMenu.length > 0) {
                 this.showSubMenu = true;
             } else {
@@ -240,7 +220,7 @@ export default {
         width: 100%;
         height: 70px;
         color: #ffffff;
-        background: #0082df;
+        background: #262f42;
         .logo-box{
             width: 10%;
             height: 100%;
@@ -254,27 +234,28 @@ export default {
             }
         }
         .menu-uls{
-            width: 80%;
+            width: 60%;
             height: 100%;
             margin: 0 auto;
             float: left;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             li{
-                float: left;
-                padding: 0 3%;
-                text-align: center;
                 line-height: 70px;
+                flex: 1;
                 font-size: 16px;
                 font-weight: bold;
-                &.lis-active{
-                    color: #1ec67a;
-                    background: #1169af;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                a{
+                    flex: 1;
+                    text-align: center;
+                    color: #ffffff;
+                    cursor: pointer;
                 }
-            }
-            li:hover{
-                cursor: pointer;
-                color: #1ec67a;
-                background: #1169af;
             }
         }
         .operation-box{
@@ -304,7 +285,7 @@ export default {
         .more-span{
             display: block;
             float: right;
-            line-height: 10px;
+            line-height: 24px;
             font-size: 24px;
         }
         .more-span:hover{

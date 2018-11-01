@@ -1,6 +1,6 @@
 <template>
     <div class="login-page">
-        <vue-particles
+        <!-- <vue-particles
             style="ba"
             color="#dedede"
             :particleOpacity="0.7"
@@ -17,14 +17,14 @@
             hoverMode="grab"
             :clickEffect="true"
             clickMode="push">
-        </vue-particles>
+        </vue-particles> -->
         <div class="login-box">
             <transition enter-active-class="zoomIn" leave-active-class="zoomOutRight">
                 <p class="login-animation" v-if="show">
                     <span class="span-input">
-                        <el-input v-model="form.name" placeholder="用户名"></el-input>
-                        <input class="pwd-input" type="password" readonly v-model="form.password" placeholder="密码">
-                        <el-button @click.native="goLogin()">登录</el-button>
+                        <el-input v-model="form.name" @keyup.enter="goLogin" placeholder="用户名"></el-input>
+                        <input class="pwd-input" type="password" readonly v-model="form.password" @keyup.enter="goLogin" placeholder="密码">
+                        <el-button @click="goLogin()">登录</el-button>
                     </span>
                 </p>
             </transition>
